@@ -3,6 +3,9 @@
 #include "VUlkanDevice.h"
 #include "RenderPass.h"
 #include "VertexLayout.h"
+#include "Shader.h"
+#include "Helper.h"
+
 using namespace vkw;
 
 GraphicsPipeline::GraphicsPipeline()
@@ -14,7 +17,7 @@ GraphicsPipeline::~GraphicsPipeline()
 {
 }
 
-void GraphicsPipeline::Init(RenderPass* pRenderPass, VkDescriptorSetLayout descriptorSetLayout, VertexLayout* pVertexLayout, VkPrimitiveTopology topology, VkFrontFace frontFace, )
+void GraphicsPipeline::Init(RenderPass* pRenderPass, VkPipelineCache pipelineCache, VkDescriptorSetLayout descriptorSetLayout, VertexLayout* pVertexLayout, const std::string& vertexShader, const std::string& fragShader, VkPrimitiveTopology topology, VkFrontFace frontFace)
 {
 	//deferred
 	VkPipelineLayoutCreateInfo pipelineLayoutCreateInfo{};
@@ -79,12 +82,12 @@ void GraphicsPipeline::Init(RenderPass* pRenderPass, VkDescriptorSetLayout descr
 	// Offscreen pipeline
 	shaderStages[0].sType = VK_STRUCTURE_TYPE_PIPELINE_SHADER_STAGE_CREATE_INFO;
 	shaderStages[0].stage = VK_SHADER_STAGE_VERTEX_BIT;
-	shaderStages[0].module = CreateShaderModule(readFile("shaders/mrt.vert.spv"), GetDevice()->GetDevice());
+	shaderStages[0].module = CreateShaderModule(readFile("shaders/mrt.vert.spv"), m_pDevice->GetDevice());
 	shaderStages[0].pName = "main";
 
 	shaderStages[1].sType = VK_STRUCTURE_TYPE_PIPELINE_SHADER_STAGE_CREATE_INFO;
 	shaderStages[1].stage = VK_SHADER_STAGE_FRAGMENT_BIT;
-	shaderStages[1].module = CreateShaderModule(readFile("shaders/mrt.frag.spv"), GetDevice()->GetDevice());
+	shaderStages[1].module = CreateShaderModule(readFile("shaders/mrt.frag.spv"), m_pDevice->GetDevice());
 	shaderStages[1].pName = "main";
 
 	VkGraphicsPipelineCreateInfo pipelineCreateInfo{};
@@ -107,9 +110,9 @@ void GraphicsPipeline::Init(RenderPass* pRenderPass, VkDescriptorSetLayout descr
 	pipelineCreateInfo.layout = m_PipelineLayout;
 	pipelineCreateInfo.pVertexInputState = &pVertexLayout->CreateVertexDescription();
 
-	ErrorCheck(vkCreateGraphicsPipelines(GetDevice()->GetDevice(), GetPipelineCache(), 1, &pipelineCreateInfo, nullptr, &m_DeferredPipeline));
+	ErrorCheck(vkCreateGraphicsPipelines(m_pDevice->GetDevice(), pipelineCache, 1, &pipelineCreateInfo, nullptr, &m_Pipeline));
 
-	vkDestroyShaderModule(GetDevice()->GetDevice(), shaderStages[0].module, nullptr);
-	vkDestroyShaderModule(GetDevice()->GetDevice(), shaderStages[1].module, nullptr);
+	vkDestroyShaderModule(m_pDevice->GetDevice(), shaderStages[0].module, nullptr);
+	vkDestroyShaderModule(m_pDevice->GetDevice(), shaderStages[1].module, nullptr);
 
 }

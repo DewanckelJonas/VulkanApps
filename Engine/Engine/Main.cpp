@@ -1,35 +1,28 @@
-#define GLFW_INCLUDE_VULKAN
-#include <GLFW/glfw3.h>
 
-#define GLM_FORCE_RADIANS
-#define GLM_FORCE_DEPTH_ZERO_TO_ONE
-#include <glm/vec4.hpp>
-#include <glm/mat4x4.hpp>
-
+#include "VulkanDevice.h"
+#include "VulkanBaseApp.h"
+#include <chrono>
 #include <iostream>
+#include "VulkanApp.h"
 
-int main() {
-	glfwInit();
-
-	glfwWindowHint(GLFW_CLIENT_API, GLFW_NO_API);
-	GLFWwindow* window = glfwCreateWindow(800, 600, "Vulkan window", nullptr, nullptr);
-
-	uint32_t extensionCount = 0;
-	vkEnumerateInstanceExtensionProperties(nullptr, &extensionCount, nullptr);
-
-	std::cout << extensionCount << " extensions supported" << std::endl;
-
-	glm::mat4 matrix;
-	glm::vec4 vec;
-	auto test = matrix * vec;
-
-	while (!glfwWindowShouldClose(window)) {
-		glfwPollEvents();
+int main()
+{
+	vkw::VulkanDevice device{};
+	VulkanApp app{ &device };
+	app.Init(1920, 1080);
+	std::chrono::steady_clock::time_point t1 = std::chrono::steady_clock::now();
+	int frames{};
+	bool isRunning{ true };
+	while(isRunning)
+	{
+		frames++;
+		std::chrono::steady_clock::time_point t2 = std::chrono::steady_clock::now();
+		float dTime = std::chrono::duration<float>(t2 - t1).count();
+		t1 = t2;
+		app.Render();
+		isRunning = app.Update(dTime);
+		std::cout << "FPS: " << 1 / dTime << std::endl;
 	}
-
-	glfwDestroyWindow(window);
-
-	glfwTerminate();
-
+	app.Cleanup();
 	return 0;
 }

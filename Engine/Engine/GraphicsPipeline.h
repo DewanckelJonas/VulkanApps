@@ -1,12 +1,16 @@
 #pragma once
 #include "Platform.h"
+#include <string>
+
 namespace vkw
 {
 	class VulkanDevice;
+	class RenderPass;
+	class VertexLayout;
 	class GraphicsPipeline
 	{
 	public:
-		GraphicsPipeline(VulkanDevice* pDevice, VkDescriptorSetLayout descriptorSetLayout);
+		GraphicsPipeline(VulkanDevice* pDevice, RenderPass* pRenderPass, VkPipelineCache pipelineCache, VkDescriptorSetLayout descriptorSetLayout, VertexLayout* pVertexLayout, const std::string& vertexShader, const std::string& fragShader, VkPrimitiveTopology topology, VkFrontFace frontFace);
 		~GraphicsPipeline();
 	
 		void Init(RenderPass* pRenderPass, VkPipelineCache pipelineCache, VkDescriptorSetLayout descriptorSetLayout, VertexLayout* pVertexLayout, const std::string& vertexShader, const std::string& fragShader, VkPrimitiveTopology topology, VkFrontFace frontFace);

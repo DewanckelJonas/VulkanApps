@@ -1,6 +1,6 @@
 #include "GraphicsPipeline.h"
 #include "VulkanHelpers.h"
-#include "VUlkanDevice.h"
+#include "VulkanDevice.h"
 #include "RenderPass.h"
 #include "VertexLayout.h"
 #include "Shader.h"
@@ -8,16 +8,17 @@
 
 using namespace vkw;
 
-GraphicsPipeline::GraphicsPipeline()
-{
-}
 
+GraphicsPipeline::GraphicsPipeline(VulkanDevice* pDevice, RenderPass* pRenderPass, VkPipelineCache pipelineCache, VkDescriptorSetLayout descriptorSetLayout, VertexLayout* pVertexLayout, const std::string& vertexShader, const std::string& fragShader, VkPrimitiveTopology topology, VkFrontFace frontFace)
+{
+	Init(pRenderPass, pipelineCache, descriptorSetLayout, pVertexLayout, vertexShader, fragShader, topology, frontFace);
+}
 
 GraphicsPipeline::~GraphicsPipeline()
 {
 }
 
-void GraphicsPipeline::Init(RenderPass* pRenderPass, VkPipelineCache pipelineCache, VkDescriptorSetLayout descriptorSetLayout, VertexLayout* pVertexLayout, const std::string& vertexShader, const std::string& fragShader, VkPrimitiveTopology topology, VkFrontFace frontFace)
+void vkw::GraphicsPipeline::Init(RenderPass* pRenderPass, VkPipelineCache pipelineCache, VkDescriptorSetLayout descriptorSetLayout, VertexLayout* pVertexLayout, const std::string& vertexShader, const std::string& fragShader, VkPrimitiveTopology topology, VkFrontFace frontFace)
 {
 	//deferred
 	VkPipelineLayoutCreateInfo pipelineLayoutCreateInfo{};

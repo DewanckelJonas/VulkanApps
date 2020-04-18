@@ -10,17 +10,28 @@ using namespace vkw;
 
 
 GraphicsPipeline::GraphicsPipeline(VulkanDevice* pDevice, RenderPass* pRenderPass, VkPipelineCache pipelineCache, VkDescriptorSetLayout descriptorSetLayout, VertexLayout* pVertexLayout, const std::string& vertexShader, const std::string& fragShader, VkPrimitiveTopology topology, VkFrontFace frontFace)
+	:m_pDevice(pDevice)
 {
 	Init(pRenderPass, pipelineCache, descriptorSetLayout, pVertexLayout, vertexShader, fragShader, topology, frontFace);
 }
 
 GraphicsPipeline::~GraphicsPipeline()
 {
+	Cleanup();
+}
+
+VkPipelineLayout vkw::GraphicsPipeline::GetLayout()
+{
+	return m_PipelineLayout;
+}
+
+VkPipeline vkw::GraphicsPipeline::GetPipeline()
+{
+	return m_Pipeline;
 }
 
 void vkw::GraphicsPipeline::Init(RenderPass* pRenderPass, VkPipelineCache pipelineCache, VkDescriptorSetLayout descriptorSetLayout, VertexLayout* pVertexLayout, const std::string& vertexShader, const std::string& fragShader, VkPrimitiveTopology topology, VkFrontFace frontFace)
 {
-	//deferred
 	VkPipelineLayoutCreateInfo pipelineLayoutCreateInfo{};
 	pipelineLayoutCreateInfo.sType = VK_STRUCTURE_TYPE_PIPELINE_LAYOUT_CREATE_INFO;
 	pipelineLayoutCreateInfo.pSetLayouts = &descriptorSetLayout;
@@ -41,22 +52,37 @@ void vkw::GraphicsPipeline::Init(RenderPass* pRenderPass, VkPipelineCache pipeli
 	rasterizationState.depthClampEnable = VK_FALSE;
 	rasterizationState.lineWidth = 1.f;
 
-	VkPipelineColorBlendAttachmentState pipelineColorBlendAttachmentState{};
-	pipelineColorBlendAttachmentState.colorWriteMask = 0xf;
-	pipelineColorBlendAttachmentState.blendEnable = VK_FALSE;
 
-	VkPipelineColorBlendStateCreateInfo pipelineColorBlendStateCreateInfo{};
-	pipelineColorBlendStateCreateInfo.sType = VK_STRUCTURE_TYPE_PIPELINE_COLOR_BLEND_STATE_CREATE_INFO;
-	pipelineColorBlendStateCreateInfo.attachmentCount = 1;
-	pipelineColorBlendStateCreateInfo.pAttachments = &pipelineColorBlendAttachmentState;
+	VkPipelineDepthStencilStateCreateInfo depthStencilState{};
+	depthStencilState.sType = VK_STRUCTURE_TYPE_PIPELINE_DEPTH_STENCIL_STATE_CREATE_INFO;
+	depthStencilState.depthTestEnable = VK_TRUE;
+	depthStencilState.depthWriteEnable = VK_TRUE;
+	depthStencilState.depthCompareOp = VK_COMPARE_OP_LESS_OR_EQUAL;
+	depthStencilState.depthBoundsTestEnable = VK_FALSE;
+	depthStencilState.stencilTestEnable = VK_FALSE;
 
-	VkPipelineDepthStencilStateCreateInfo pipelineDepthStencilStateCreateInfo{};
-	pipelineDepthStencilStateCreateInfo.sType = VK_STRUCTURE_TYPE_PIPELINE_DEPTH_STENCIL_STATE_CREATE_INFO;
-	pipelineDepthStencilStateCreateInfo.depthTestEnable = VK_TRUE;
-	pipelineDepthStencilStateCreateInfo.depthWriteEnable = VK_TRUE;
-	pipelineDepthStencilStateCreateInfo.depthCompareOp = VK_COMPARE_OP_LESS_OR_EQUAL;
-	pipelineDepthStencilStateCreateInfo.back.compareOp = VK_COMPARE_OP_ALWAYS;
-	pipelineDepthStencilStateCreateInfo.front = pipelineDepthStencilStateCreateInfo.back;
+	VkPipelineColorBlendAttachmentState colorBlendAttachment{};
+	colorBlendAttachment.colorWriteMask = VK_COLOR_COMPONENT_R_BIT | VK_COLOR_COMPONENT_G_BIT | VK_COLOR_COMPONENT_B_BIT | VK_COLOR_COMPONENT_A_BIT;
+	colorBlendAttachment.blendEnable = VK_FALSE;
+	colorBlendAttachment.srcColorBlendFactor = VK_BLEND_FACTOR_ONE; // Optional
+	colorBlendAttachment.dstColorBlendFactor = VK_BLEND_FACTOR_ZERO; // Optional
+	colorBlendAttachment.colorBlendOp = VK_BLEND_OP_ADD; // Optional
+	colorBlendAttachment.srcAlphaBlendFactor = VK_BLEND_FACTOR_ONE; // Optional
+	colorBlendAttachment.dstAlphaBlendFactor = VK_BLEND_FACTOR_ZERO; // Optional
+	colorBlendAttachment.alphaBlendOp = VK_BLEND_OP_ADD; // Optional
+
+	std::array<VkPipelineColorBlendAttachmentState, 1> colorBlendAttachments{ colorBlendAttachment };
+
+	VkPipelineColorBlendStateCreateInfo colorBlendState = {};
+	colorBlendState.sType = VK_STRUCTURE_TYPE_PIPELINE_COLOR_BLEND_STATE_CREATE_INFO;
+	colorBlendState.logicOpEnable = VK_FALSE;
+	colorBlendState.logicOp = VK_LOGIC_OP_COPY; // Optional
+	colorBlendState.attachmentCount = uint32_t(colorBlendAttachments.size());
+	colorBlendState.pAttachments = colorBlendAttachments.data();
+	colorBlendState.blendConstants[0] = 0.0f; // Optional
+	colorBlendState.blendConstants[1] = 0.0f; // Optional
+	colorBlendState.blendConstants[2] = 0.0f; // Optional
+	colorBlendState.blendConstants[3] = 0.0f; // Optional
 
 	VkPipelineViewportStateCreateInfo pipelineViewportStateCreateInfo{};
 	pipelineViewportStateCreateInfo.sType = VK_STRUCTURE_TYPE_PIPELINE_VIEWPORT_STATE_CREATE_INFO;
@@ -75,7 +101,7 @@ void vkw::GraphicsPipeline::Init(RenderPass* pRenderPass, VkPipelineCache pipeli
 	VkPipelineDynamicStateCreateInfo pipelineDynamicStateCreateInfo{};
 	pipelineDynamicStateCreateInfo.sType = VK_STRUCTURE_TYPE_PIPELINE_DYNAMIC_STATE_CREATE_INFO;
 	pipelineDynamicStateCreateInfo.pDynamicStates = dynamicStateEnables.data();
-	pipelineDynamicStateCreateInfo.dynamicStateCount = dynamicStateEnables.size();
+	pipelineDynamicStateCreateInfo.dynamicStateCount = uint32_t(dynamicStateEnables.size());
 	pipelineDynamicStateCreateInfo.flags = 0;
 
 	std::array<VkPipelineShaderStageCreateInfo, 2> shaderStages{};
@@ -83,12 +109,12 @@ void vkw::GraphicsPipeline::Init(RenderPass* pRenderPass, VkPipelineCache pipeli
 	// Offscreen pipeline
 	shaderStages[0].sType = VK_STRUCTURE_TYPE_PIPELINE_SHADER_STAGE_CREATE_INFO;
 	shaderStages[0].stage = VK_SHADER_STAGE_VERTEX_BIT;
-	shaderStages[0].module = CreateShaderModule(readFile("shaders/mrt.vert.spv"), m_pDevice->GetDevice());
+	shaderStages[0].module = CreateShaderModule(readFile(vertexShader), m_pDevice->GetDevice());
 	shaderStages[0].pName = "main";
 
 	shaderStages[1].sType = VK_STRUCTURE_TYPE_PIPELINE_SHADER_STAGE_CREATE_INFO;
 	shaderStages[1].stage = VK_SHADER_STAGE_FRAGMENT_BIT;
-	shaderStages[1].module = CreateShaderModule(readFile("shaders/mrt.frag.spv"), m_pDevice->GetDevice());
+	shaderStages[1].module = CreateShaderModule(readFile(fragShader), m_pDevice->GetDevice());
 	shaderStages[1].pName = "main";
 
 	VkGraphicsPipelineCreateInfo pipelineCreateInfo{};
@@ -101,12 +127,12 @@ void vkw::GraphicsPipeline::Init(RenderPass* pRenderPass, VkPipelineCache pipeli
 
 	pipelineCreateInfo.pInputAssemblyState = &inputAssemblyState;
 	pipelineCreateInfo.pRasterizationState = &rasterizationState;
-	pipelineCreateInfo.pColorBlendState = &pipelineColorBlendStateCreateInfo;
+	pipelineCreateInfo.pColorBlendState = &colorBlendState;
 	pipelineCreateInfo.pViewportState = &pipelineViewportStateCreateInfo;
-	pipelineCreateInfo.pDepthStencilState = &pipelineDepthStencilStateCreateInfo;
+	pipelineCreateInfo.pDepthStencilState = &depthStencilState;
 	pipelineCreateInfo.pDynamicState = &pipelineDynamicStateCreateInfo;
 	pipelineCreateInfo.pMultisampleState = &pipelineMultisampleStateCreateInfo;
-	pipelineCreateInfo.stageCount = shaderStages.size();
+	pipelineCreateInfo.stageCount = uint32_t(shaderStages.size());
 	pipelineCreateInfo.pStages = shaderStages.data();
 	pipelineCreateInfo.layout = m_PipelineLayout;
 	pipelineCreateInfo.pVertexInputState = &pVertexLayout->CreateVertexDescription();
@@ -116,4 +142,10 @@ void vkw::GraphicsPipeline::Init(RenderPass* pRenderPass, VkPipelineCache pipeli
 	vkDestroyShaderModule(m_pDevice->GetDevice(), shaderStages[0].module, nullptr);
 	vkDestroyShaderModule(m_pDevice->GetDevice(), shaderStages[1].module, nullptr);
 
+}
+
+void vkw::GraphicsPipeline::Cleanup()
+{
+	vkDestroyPipeline(m_pDevice->GetDevice(), m_Pipeline, nullptr);
+	vkDestroyPipelineLayout(m_pDevice->GetDevice(), m_PipelineLayout, nullptr);
 }

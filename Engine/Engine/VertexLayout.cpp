@@ -1,7 +1,7 @@
 #include "VertexLayout.h"
 
 
-VkPipelineVertexInputStateCreateInfo vkw::VertexLayout::CreateVertexDescription()
+const VkPipelineVertexInputStateCreateInfo& vkw::VertexLayout::CreateVertexDescription()
 {
 	m_BindingDescriptions[0].binding = 0;
 	m_BindingDescriptions[0].stride = m_Stride;
@@ -18,7 +18,7 @@ VkPipelineVertexInputStateCreateInfo vkw::VertexLayout::CreateVertexDescription(
 		{
 		case Types::UV:
 			m_AttributeDescriptions[i].binding = 0;
-			m_AttributeDescriptions[i].location = i;
+			m_AttributeDescriptions[i].location = uint32_t(i);
 			m_AttributeDescriptions[i].format = VK_FORMAT_R32G32_SFLOAT;
 			m_AttributeDescriptions[i].offset = offset;
 			offset += 2 * sizeof(float);
@@ -31,19 +31,17 @@ VkPipelineVertexInputStateCreateInfo vkw::VertexLayout::CreateVertexDescription(
 			break;
 		default:
 			m_AttributeDescriptions[i].binding = 0;
-			m_AttributeDescriptions[i].location = i;
+			m_AttributeDescriptions[i].location = uint32_t(i);
 			m_AttributeDescriptions[i].format = VK_FORMAT_R32G32B32_SFLOAT;
 			m_AttributeDescriptions[i].offset = offset;
 			offset += 3 * sizeof(float);
 		}
 	}
 
-
-	VkPipelineVertexInputStateCreateInfo vertexInputState{};
-	vertexInputState.sType = VK_STRUCTURE_TYPE_PIPELINE_VERTEX_INPUT_STATE_CREATE_INFO;
-	vertexInputState.pVertexAttributeDescriptions = m_AttributeDescriptions.data();
-	vertexInputState.vertexAttributeDescriptionCount = m_AttributeDescriptions.size();
-	vertexInputState.pVertexBindingDescriptions = m_BindingDescriptions.data();
-	vertexInputState.vertexBindingDescriptionCount = m_BindingDescriptions.size();
-	return vertexInputState;
+	m_VertexInputState.sType = VK_STRUCTURE_TYPE_PIPELINE_VERTEX_INPUT_STATE_CREATE_INFO;
+	m_VertexInputState.pVertexAttributeDescriptions = m_AttributeDescriptions.data();
+	m_VertexInputState.vertexAttributeDescriptionCount = uint32_t(m_AttributeDescriptions.size());
+	m_VertexInputState.pVertexBindingDescriptions = m_BindingDescriptions.data();
+	m_VertexInputState.vertexBindingDescriptionCount = uint32_t(m_BindingDescriptions.size());
+	return m_VertexInputState;
 }

@@ -43,13 +43,14 @@ namespace vkw
 
 		uint32_t GetStride() { return m_Stride; }
 		const std::vector<Types>& GetLayout() { return m_Layout; }
-		VkPipelineVertexInputStateCreateInfo CreateVertexDescription();
+		const VkPipelineVertexInputStateCreateInfo& CreateVertexDescription();
 
 	private:
 		uint32_t m_Stride{};
 		std::vector<Types> m_Layout{};
 		std::vector<VkVertexInputAttributeDescription> m_AttributeDescriptions{};
 		std::vector<VkVertexInputBindingDescription> m_BindingDescriptions{ 1 };
+		VkPipelineVertexInputStateCreateInfo m_VertexInputState{};
 	};
 }
 

@@ -24,7 +24,7 @@ VulkanSwapchain::~VulkanSwapchain()
 
 uint32_t vkw::VulkanSwapchain::AcquireNextImage(VkSemaphore presentComplete)
 {
-	vkAcquireNextImageKHR(m_pDevice->GetDevice(), m_Swapchain, UINT64_MAX, presentComplete, VK_NULL_HANDLE, &m_ActiveSwapchainImageId);
+	ErrorCheck(vkAcquireNextImageKHR(m_pDevice->GetDevice(), m_Swapchain, UINT64_MAX, presentComplete, VK_NULL_HANDLE, &m_ActiveSwapchainImageId));
 	return m_ActiveSwapchainImageId;
 }
 

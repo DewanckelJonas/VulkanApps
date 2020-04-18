@@ -21,5 +21,6 @@ namespace vkw
 		VkDescriptorPoolCreateInfo				m_DescriptorPoolInfo{};
 		uint32_t								m_NrOfSets = 0;
 		std::vector<VkDescriptorPoolSize>		m_DescriptorPoolSizes{};
+		std::vector<DescriptorSet*>			m_pDescriptorSets{};
 	};
 }

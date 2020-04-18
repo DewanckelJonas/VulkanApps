@@ -12,8 +12,8 @@ namespace vkw
 		~Buffer();
 
 		void Update(void * data, size_t size, CommandPool* cmdPool);
-		const VkBuffer& GetHandle();
-		VkDescriptorBufferInfo GetDescriptor();
+		const VkBuffer& GetHandle() const;
+		VkDescriptorBufferInfo GetDescriptor() const;
 		void Map();
 		void UnMap();
 		void* GetMappedMemory();

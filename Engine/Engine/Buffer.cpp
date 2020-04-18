@@ -49,12 +49,12 @@ void vkw::Buffer::Update(void * data, size_t size, CommandPool* cmdPool)
 
 }
 
-const VkBuffer& vkw::Buffer::GetHandle()
+const VkBuffer& vkw::Buffer::GetHandle() const
 {
 	return m_Buffer;
 }
 
-VkDescriptorBufferInfo vkw::Buffer::GetDescriptor()
+VkDescriptorBufferInfo vkw::Buffer::GetDescriptor() const
 {
 	return m_Descriptor;
 }

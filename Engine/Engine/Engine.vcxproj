@@ -98,13 +98,15 @@
     <ClCompile Include="DepthStencilBuffer.cpp" />
     <ClCompile Include="DescriptorPool.cpp" />
     <ClCompile Include="DescriptorSet.cpp" />
-    <ClCompile Include="DescriptorSetLayout.cpp" />
     <ClCompile Include="FrameBuffer.cpp" />
     <ClCompile Include="GraphicsPipeline.cpp" />
+    <ClCompile Include="Helper.cpp" />
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="RaytracingGeometry.cpp" />
     <ClCompile Include="RenderPass.cpp" />
+    <ClCompile Include="Shader.cpp" />
     <ClCompile Include="Texture.cpp" />
+    <ClCompile Include="VertexBuffer.cpp" />
     <ClCompile Include="VertexLayout.cpp" />
     <ClCompile Include="VulkanApp.cpp" />
     <ClCompile Include="VulkanBaseApp.cpp" />
@@ -123,7 +125,6 @@
     <ClInclude Include="DepthStencilBuffer.h" />
     <ClInclude Include="DescriptorPool.h" />
     <ClInclude Include="DescriptorSet.h" />
-    <ClInclude Include="DescriptorSetLayout.h" />
     <ClInclude Include="FrameBuffer.h" />
     <ClInclude Include="GraphicsPipeline.h" />
     <ClInclude Include="Helper.h" />
@@ -133,6 +134,7 @@
     <ClInclude Include="Shader.h" />
     <ClInclude Include="stb_image.h" />
     <ClInclude Include="Texture.h" />
+    <ClInclude Include="VertexBuffer.h" />
     <ClInclude Include="VertexLayout.h" />
     <ClInclude Include="VulkanApp.h" />
     <ClInclude Include="VulkanBaseApp.h" />

@@ -26,7 +26,7 @@ void DescriptorSet::AddBinding(const VkDescriptorImageInfo & imageDescriptor, Vk
 	writeDescriptorSet.descriptorCount = 1;
 	m_WriteDescriptorSets.push_back(writeDescriptorSet);
 
-	AddDescriptorSetLayoutBinding(descriptorType, shaderStage);
+	AddDescriptorSetLayoutBinding(descriptorType, shaderStage, binding);
 }
 
 void DescriptorSet::AddBinding(const VkDescriptorBufferInfo & bufferDescriptor, VkDescriptorType descriptorType, VkShaderStageFlags shaderStage)
@@ -42,14 +42,14 @@ void DescriptorSet::AddBinding(const VkDescriptorBufferInfo & bufferDescriptor, 
 	writeDescriptorSet.descriptorCount = 1;
 	m_WriteDescriptorSets.push_back(writeDescriptorSet);
 	
-	AddDescriptorSetLayoutBinding(descriptorType, shaderStage);
+	AddDescriptorSetLayoutBinding(descriptorType, shaderStage, binding);
 }
 
 void vkw::DescriptorSet::Allocate(VulkanDevice * pDevice, DescriptorPool * pPool)
 {
 	VkDescriptorSetLayoutCreateInfo descriptorSetLayoutCreateInfo{};
 	descriptorSetLayoutCreateInfo.sType = VK_STRUCTURE_TYPE_DESCRIPTOR_SET_LAYOUT_CREATE_INFO;
-	descriptorSetLayoutCreateInfo.bindingCount = m_DescriptorSetLayoutBindings.size();
+	descriptorSetLayoutCreateInfo.bindingCount = uint32_t(m_DescriptorSetLayoutBindings.size());
 	descriptorSetLayoutCreateInfo.pBindings = m_DescriptorSetLayoutBindings.data();
 
 	ErrorCheck(vkCreateDescriptorSetLayout(pDevice->GetDevice(), &descriptorSetLayoutCreateInfo, nullptr, &m_DescriptorSetLayout));
@@ -64,7 +64,7 @@ void vkw::DescriptorSet::Allocate(VulkanDevice * pDevice, DescriptorPool * pPool
 	vkQueueWaitIdle(pDevice->GetQueue());
 
 
-	for (VkWriteDescriptorSet writeDescriptorSet : m_WriteDescriptorSets)
+	for (VkWriteDescriptorSet& writeDescriptorSet : m_WriteDescriptorSets)
 	{
 		writeDescriptorSet.dstSet = m_DescriptorSet;
 	}
@@ -73,20 +73,30 @@ void vkw::DescriptorSet::Allocate(VulkanDevice * pDevice, DescriptorPool * pPool
 
 }
 
+void vkw::DescriptorSet::DeAllocate(VulkanDevice* pDevice)
+{
+	vkDestroyDescriptorSetLayout(pDevice->GetDevice(), m_DescriptorSetLayout, nullptr);
+}
+
 const std::vector<VkDescriptorSetLayoutBinding>& vkw::DescriptorSet::GetDescriptorSetLayoutBindings() const
 {
 	return m_DescriptorSetLayoutBindings;
 }
 
-VkDescriptorSetLayout vkw::DescriptorSet::GetLayout() const
+const VkDescriptorSet& vkw::DescriptorSet::GetHandle() const
+{
+	return m_DescriptorSet;
+}
+
+const VkDescriptorSetLayout& vkw::DescriptorSet::GetLayout() const
 {
 	return m_DescriptorSetLayout;
 }
 
-void vkw::DescriptorSet::AddDescriptorSetLayoutBinding(VkDescriptorType descriptorType, VkShaderStageFlags shaderStage)
+void vkw::DescriptorSet::AddDescriptorSetLayoutBinding(VkDescriptorType descriptorType, VkShaderStageFlags shaderStage, uint32_t binding)
 {
 	VkDescriptorSetLayoutBinding descriptorSetLayoutBindings{};
-	descriptorSetLayoutBindings.binding = 0;
+	descriptorSetLayoutBindings.binding = binding;
 	descriptorSetLayoutBindings.descriptorCount = 1;
 	descriptorSetLayoutBindings.descriptorType = descriptorType;
 	descriptorSetLayoutBindings.stageFlags = shaderStage;

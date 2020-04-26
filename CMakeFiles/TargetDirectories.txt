@@ -1,0 +1,4 @@
+C:/DAE/VoxelEngine/CMakeFiles/ALL_BUILD.dir
+C:/DAE/VoxelEngine/CMakeFiles/ZERO_CHECK.dir
+C:/DAE/VoxelEngine/Engine/CMakeFiles/Engine.dir
+C:/DAE/VoxelEngine/Apps/CMakeFiles/VoxelRendering.dir

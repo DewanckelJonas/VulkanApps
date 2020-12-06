@@ -15,7 +15,7 @@ function(buildApp APP_NAME)
 	file(GLOB SHADERS "${SHADER_DIR}/*.vert" "${SHADER_DIR}/*.frag" "${SHADER_DIR}/*.comp" "${SHADER_DIR}/*.geom" "${SHADER_DIR}/*.tesc" "${SHADER_DIR}/*.tese" "${SHADER_DIR}/*.mesh" "${SHADER_DIR}/*.task" "${SHADER_DIR}/*.rgen" "${SHADER_DIR}/*.rchit" "${SHADER_DIR}/*.rmiss")
 	source_group("Shaders" FILES ${SHADERS})
 	add_executable(${APP_NAME} ${HEADERS} ${MAIN_CPP} ${SOURCE} ${SHADERS})
-	target_link_libraries(${APP_NAME} Engine)
+	target_link_libraries(${APP_NAME} Base VulkanWrapper DataHandling DebugUI)
 
 	set_target_properties(${APP_NAME} PROPERTIES VS_DEBUGGER_WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}/bin)
 
@@ -24,12 +24,14 @@ endfunction(buildApp)
 # Build all apps
 function(buildApps)
 	foreach(APP ${APPS})
-		buildApp(${APPS})
+		buildApp(${APP})
 	endforeach(APPS)
 endfunction(buildApps)
 
 set(APPS
-	VoxelRendering
+App
+VoxelRendering
+MeshDebugRendering
 )
 
 buildApps()

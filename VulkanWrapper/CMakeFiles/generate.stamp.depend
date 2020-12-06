@@ -1,0 +1,5 @@
+# CMake generation dependency list for this directory.
+C:/DAE/VoxelEngine/VulkanWrapper/CMakeLists.txt
+C:/Program Files/CMake/share/cmake-3.15/Modules/FindPackageHandleStandardArgs.cmake
+C:/Program Files/CMake/share/cmake-3.15/Modules/FindPackageMessage.cmake
+C:/Program Files/CMake/share/cmake-3.15/Modules/FindVulkan.cmake

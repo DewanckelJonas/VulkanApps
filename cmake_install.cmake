@@ -34,7 +34,11 @@ endif()
 
 if(NOT CMAKE_INSTALL_LOCAL_ONLY)
   # Include the install script for each subdirectory.
-  include("C:/DAE/VoxelEngine/Engine/cmake_install.cmake")
+  include("C:/DAE/VoxelEngine/Libs/glfw/cmake_install.cmake")
+  include("C:/DAE/VoxelEngine/Base/cmake_install.cmake")
+  include("C:/DAE/VoxelEngine/VulkanWrapper/cmake_install.cmake")
+  include("C:/DAE/VoxelEngine/DataHandling/cmake_install.cmake")
+  include("C:/DAE/VoxelEngine/DebugUI/cmake_install.cmake")
   include("C:/DAE/VoxelEngine/Apps/cmake_install.cmake")
 
 endif()

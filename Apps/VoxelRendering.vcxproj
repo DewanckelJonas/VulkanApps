@@ -90,7 +90,7 @@
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
-      <AdditionalIncludeDirectories>C:\DAE\VoxelEngine\Libs\glm;C:\DAE\VoxelEngine\Libs\glfw\glfw-3.3_64\include;C:\DAE\VoxelEngine\Libs\imgui;C:\DAE\VoxelEngine\Libs\vulkan;C:\DAE\VoxelEngine\Engine;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\DAE\VoxelEngine\Libs\glm;C:\DAE\VoxelEngine\Libs\glfw\include;C:\DAE\VoxelEngine\Libs\imgui;C:\DAE\VoxelEngine\Libs\vulkan;C:\DAE\VoxelEngine;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <AssemblerListingLocation>$(IntDir)</AssemblerListingLocation>
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
       <CompileAs>CompileAsCpp</CompileAs>
@@ -108,10 +108,10 @@
     </ClCompile>
     <ResourceCompile>
       <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;NOMINMAX;_USE_MATH_DEFINES;CMAKE_INTDIR=\"Debug\";%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>C:\DAE\VoxelEngine\Libs\glm;C:\DAE\VoxelEngine\Libs\glfw\glfw-3.3_64\include;C:\DAE\VoxelEngine\Libs\imgui;C:\DAE\VoxelEngine\Libs\vulkan;C:\DAE\VoxelEngine\Engine;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\DAE\VoxelEngine\Libs\glm;C:\DAE\VoxelEngine\Libs\glfw\include;C:\DAE\VoxelEngine\Libs\imgui;C:\DAE\VoxelEngine\Libs\vulkan;C:\DAE\VoxelEngine;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ResourceCompile>
     <Midl>
-      <AdditionalIncludeDirectories>C:\DAE\VoxelEngine\Libs\glm;C:\DAE\VoxelEngine\Libs\glfw\glfw-3.3_64\include;C:\DAE\VoxelEngine\Libs\imgui;C:\DAE\VoxelEngine\Libs\vulkan;C:\DAE\VoxelEngine\Engine;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\DAE\VoxelEngine\Libs\glm;C:\DAE\VoxelEngine\Libs\glfw\include;C:\DAE\VoxelEngine\Libs\imgui;C:\DAE\VoxelEngine\Libs\vulkan;C:\DAE\VoxelEngine;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
       <HeaderFileName>%(Filename).h</HeaderFileName>
       <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
@@ -119,7 +119,7 @@
       <ProxyFileName>%(Filename)_p.c</ProxyFileName>
     </Midl>
     <Link>
-      <AdditionalDependencies>C:\VulkanSDK\1.1.121.2\Lib\vulkan-1.lib;C:\VulkanSDK\1.1.121.2\Lib\vulkan-1.lib;..\Engine\Debug\Engine.lib;C:\VulkanSDK\1.1.121.2\Lib\vulkan-1.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;comdlg32.lib;advapi32.lib</AdditionalDependencies>
+      <AdditionalDependencies>..\Base\Debug\Base.lib;..\VulkanWrapper\Debug\VulkanWrapper.lib;..\DataHandling\Debug\DataHandling.lib;..\DebugUI\Debug\DebugUI.lib;C:\VulkanSDK\1.1.121.2\Lib\vulkan-1.lib;..\Libs\glfw\src\Debug\glfw3.lib;..\Base\Debug\Base.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;comdlg32.lib;advapi32.lib</AdditionalDependencies>
       <AdditionalLibraryDirectories>%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalOptions>%(AdditionalOptions) /machine:x64</AdditionalOptions>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -134,7 +134,7 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
-      <AdditionalIncludeDirectories>C:\DAE\VoxelEngine\Libs\glm;C:\DAE\VoxelEngine\Libs\glfw\glfw-3.3_64\include;C:\DAE\VoxelEngine\Libs\imgui;C:\DAE\VoxelEngine\Libs\vulkan;C:\DAE\VoxelEngine\Engine;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\DAE\VoxelEngine\Libs\glm;C:\DAE\VoxelEngine\Libs\glfw\include;C:\DAE\VoxelEngine\Libs\imgui;C:\DAE\VoxelEngine\Libs\vulkan;C:\DAE\VoxelEngine;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <AssemblerListingLocation>$(IntDir)</AssemblerListingLocation>
       <CompileAs>CompileAsCpp</CompileAs>
       <ExceptionHandling>Sync</ExceptionHandling>
@@ -152,10 +152,10 @@
     </ClCompile>
     <ResourceCompile>
       <PreprocessorDefinitions>WIN32;_WINDOWS;NOMINMAX;_USE_MATH_DEFINES;NDEBUG;CMAKE_INTDIR=\"Release\";%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>C:\DAE\VoxelEngine\Libs\glm;C:\DAE\VoxelEngine\Libs\glfw\glfw-3.3_64\include;C:\DAE\VoxelEngine\Libs\imgui;C:\DAE\VoxelEngine\Libs\vulkan;C:\DAE\VoxelEngine\Engine;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\DAE\VoxelEngine\Libs\glm;C:\DAE\VoxelEngine\Libs\glfw\include;C:\DAE\VoxelEngine\Libs\imgui;C:\DAE\VoxelEngine\Libs\vulkan;C:\DAE\VoxelEngine;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ResourceCompile>
     <Midl>
-      <AdditionalIncludeDirectories>C:\DAE\VoxelEngine\Libs\glm;C:\DAE\VoxelEngine\Libs\glfw\glfw-3.3_64\include;C:\DAE\VoxelEngine\Libs\imgui;C:\DAE\VoxelEngine\Libs\vulkan;C:\DAE\VoxelEngine\Engine;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\DAE\VoxelEngine\Libs\glm;C:\DAE\VoxelEngine\Libs\glfw\include;C:\DAE\VoxelEngine\Libs\imgui;C:\DAE\VoxelEngine\Libs\vulkan;C:\DAE\VoxelEngine;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
       <HeaderFileName>%(Filename).h</HeaderFileName>
       <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
@@ -163,7 +163,7 @@
       <ProxyFileName>%(Filename)_p.c</ProxyFileName>
     </Midl>
     <Link>
-      <AdditionalDependencies>C:\VulkanSDK\1.1.121.2\Lib\vulkan-1.lib;C:\VulkanSDK\1.1.121.2\Lib\vulkan-1.lib;..\Engine\Release\Engine.lib;C:\VulkanSDK\1.1.121.2\Lib\vulkan-1.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;comdlg32.lib;advapi32.lib</AdditionalDependencies>
+      <AdditionalDependencies>..\Base\Release\Base.lib;..\VulkanWrapper\Release\VulkanWrapper.lib;..\DataHandling\Release\DataHandling.lib;..\DebugUI\Release\DebugUI.lib;C:\VulkanSDK\1.1.121.2\Lib\vulkan-1.lib;..\Libs\glfw\src\Release\glfw3.lib;..\Base\Release\Base.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;comdlg32.lib;advapi32.lib</AdditionalDependencies>
       <AdditionalLibraryDirectories>%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalOptions>%(AdditionalOptions) /machine:x64</AdditionalOptions>
       <GenerateDebugInformation>false</GenerateDebugInformation>
@@ -178,7 +178,7 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">
     <ClCompile>
-      <AdditionalIncludeDirectories>C:\DAE\VoxelEngine\Libs\glm;C:\DAE\VoxelEngine\Libs\glfw\glfw-3.3_64\include;C:\DAE\VoxelEngine\Libs\imgui;C:\DAE\VoxelEngine\Libs\vulkan;C:\DAE\VoxelEngine\Engine;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\DAE\VoxelEngine\Libs\glm;C:\DAE\VoxelEngine\Libs\glfw\include;C:\DAE\VoxelEngine\Libs\imgui;C:\DAE\VoxelEngine\Libs\vulkan;C:\DAE\VoxelEngine;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <AssemblerListingLocation>$(IntDir)</AssemblerListingLocation>
       <CompileAs>CompileAsCpp</CompileAs>
       <ExceptionHandling>Sync</ExceptionHandling>
@@ -196,10 +196,10 @@
     </ClCompile>
     <ResourceCompile>
       <PreprocessorDefinitions>WIN32;_WINDOWS;NOMINMAX;_USE_MATH_DEFINES;NDEBUG;CMAKE_INTDIR=\"MinSizeRel\";%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>C:\DAE\VoxelEngine\Libs\glm;C:\DAE\VoxelEngine\Libs\glfw\glfw-3.3_64\include;C:\DAE\VoxelEngine\Libs\imgui;C:\DAE\VoxelEngine\Libs\vulkan;C:\DAE\VoxelEngine\Engine;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\DAE\VoxelEngine\Libs\glm;C:\DAE\VoxelEngine\Libs\glfw\include;C:\DAE\VoxelEngine\Libs\imgui;C:\DAE\VoxelEngine\Libs\vulkan;C:\DAE\VoxelEngine;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ResourceCompile>
     <Midl>
-      <AdditionalIncludeDirectories>C:\DAE\VoxelEngine\Libs\glm;C:\DAE\VoxelEngine\Libs\glfw\glfw-3.3_64\include;C:\DAE\VoxelEngine\Libs\imgui;C:\DAE\VoxelEngine\Libs\vulkan;C:\DAE\VoxelEngine\Engine;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\DAE\VoxelEngine\Libs\glm;C:\DAE\VoxelEngine\Libs\glfw\include;C:\DAE\VoxelEngine\Libs\imgui;C:\DAE\VoxelEngine\Libs\vulkan;C:\DAE\VoxelEngine;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
       <HeaderFileName>%(Filename).h</HeaderFileName>
       <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
@@ -207,7 +207,7 @@
       <ProxyFileName>%(Filename)_p.c</ProxyFileName>
     </Midl>
     <Link>
-      <AdditionalDependencies>C:\VulkanSDK\1.1.121.2\Lib\vulkan-1.lib;C:\VulkanSDK\1.1.121.2\Lib\vulkan-1.lib;..\Engine\MinSizeRel\Engine.lib;C:\VulkanSDK\1.1.121.2\Lib\vulkan-1.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;comdlg32.lib;advapi32.lib</AdditionalDependencies>
+      <AdditionalDependencies>..\Base\MinSizeRel\Base.lib;..\VulkanWrapper\MinSizeRel\VulkanWrapper.lib;..\DataHandling\MinSizeRel\DataHandling.lib;..\DebugUI\MinSizeRel\DebugUI.lib;C:\VulkanSDK\1.1.121.2\Lib\vulkan-1.lib;..\Libs\glfw\src\MinSizeRel\glfw3.lib;..\Base\MinSizeRel\Base.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;comdlg32.lib;advapi32.lib</AdditionalDependencies>
       <AdditionalLibraryDirectories>%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalOptions>%(AdditionalOptions) /machine:x64</AdditionalOptions>
       <GenerateDebugInformation>false</GenerateDebugInformation>
@@ -222,7 +222,7 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">
     <ClCompile>
-      <AdditionalIncludeDirectories>C:\DAE\VoxelEngine\Libs\glm;C:\DAE\VoxelEngine\Libs\glfw\glfw-3.3_64\include;C:\DAE\VoxelEngine\Libs\imgui;C:\DAE\VoxelEngine\Libs\vulkan;C:\DAE\VoxelEngine\Engine;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\DAE\VoxelEngine\Libs\glm;C:\DAE\VoxelEngine\Libs\glfw\include;C:\DAE\VoxelEngine\Libs\imgui;C:\DAE\VoxelEngine\Libs\vulkan;C:\DAE\VoxelEngine;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <AssemblerListingLocation>$(IntDir)</AssemblerListingLocation>
       <CompileAs>CompileAsCpp</CompileAs>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
@@ -239,10 +239,10 @@
     </ClCompile>
     <ResourceCompile>
       <PreprocessorDefinitions>WIN32;_WINDOWS;NOMINMAX;_USE_MATH_DEFINES;NDEBUG;CMAKE_INTDIR=\"RelWithDebInfo\";%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>C:\DAE\VoxelEngine\Libs\glm;C:\DAE\VoxelEngine\Libs\glfw\glfw-3.3_64\include;C:\DAE\VoxelEngine\Libs\imgui;C:\DAE\VoxelEngine\Libs\vulkan;C:\DAE\VoxelEngine\Engine;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\DAE\VoxelEngine\Libs\glm;C:\DAE\VoxelEngine\Libs\glfw\include;C:\DAE\VoxelEngine\Libs\imgui;C:\DAE\VoxelEngine\Libs\vulkan;C:\DAE\VoxelEngine;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ResourceCompile>
     <Midl>
-      <AdditionalIncludeDirectories>C:\DAE\VoxelEngine\Libs\glm;C:\DAE\VoxelEngine\Libs\glfw\glfw-3.3_64\include;C:\DAE\VoxelEngine\Libs\imgui;C:\DAE\VoxelEngine\Libs\vulkan;C:\DAE\VoxelEngine\Engine;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\DAE\VoxelEngine\Libs\glm;C:\DAE\VoxelEngine\Libs\glfw\include;C:\DAE\VoxelEngine\Libs\imgui;C:\DAE\VoxelEngine\Libs\vulkan;C:\DAE\VoxelEngine;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
       <HeaderFileName>%(Filename).h</HeaderFileName>
       <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
@@ -250,7 +250,7 @@
       <ProxyFileName>%(Filename)_p.c</ProxyFileName>
     </Midl>
     <Link>
-      <AdditionalDependencies>C:\VulkanSDK\1.1.121.2\Lib\vulkan-1.lib;C:\VulkanSDK\1.1.121.2\Lib\vulkan-1.lib;..\Engine\RelWithDebInfo\Engine.lib;C:\VulkanSDK\1.1.121.2\Lib\vulkan-1.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;comdlg32.lib;advapi32.lib</AdditionalDependencies>
+      <AdditionalDependencies>..\Base\RelWithDebInfo\Base.lib;..\VulkanWrapper\RelWithDebInfo\VulkanWrapper.lib;..\DataHandling\RelWithDebInfo\DataHandling.lib;..\DebugUI\RelWithDebInfo\DebugUI.lib;C:\VulkanSDK\1.1.121.2\Lib\vulkan-1.lib;..\Libs\glfw\src\RelWithDebInfo\glfw3.lib;..\Base\RelWithDebInfo\Base.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;comdlg32.lib;advapi32.lib</AdditionalDependencies>
       <AdditionalLibraryDirectories>%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalOptions>%(AdditionalOptions) /machine:x64</AdditionalOptions>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -331,9 +331,33 @@ if %errorlevel% neq 0 goto :VCEnd</Command>
       <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </ProjectReference>
-    <ProjectReference Include="C:\DAE\VoxelEngine\Engine\Engine.vcxproj">
-      <Project>{672D1942-910C-3688-9F41-FD046AC47939}</Project>
-      <Name>Engine</Name>
+    <ProjectReference Include="C:\DAE\VoxelEngine\Base\Base.vcxproj">
+      <Project>{2EEA3033-06D9-3842-8716-3CDE08B7650B}</Project>
+      <Name>Base</Name>
+      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </ProjectReference>
+    <ProjectReference Include="C:\DAE\VoxelEngine\DataHandling\DataHandling.vcxproj">
+      <Project>{BA1BA93B-DDBA-333D-B2C4-78B85EE63556}</Project>
+      <Name>DataHandling</Name>
+      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </ProjectReference>
+    <ProjectReference Include="C:\DAE\VoxelEngine\DebugUI\DebugUI.vcxproj">
+      <Project>{3F26E093-2ADC-31CA-988D-FA027FF9C6CE}</Project>
+      <Name>DebugUI</Name>
+      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </ProjectReference>
+    <ProjectReference Include="C:\DAE\VoxelEngine\VulkanWrapper\VulkanWrapper.vcxproj">
+      <Project>{E7DA747B-C5E4-38E4-9CD3-EB724FF52CB7}</Project>
+      <Name>VulkanWrapper</Name>
+      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </ProjectReference>
+    <ProjectReference Include="C:\DAE\VoxelEngine\Libs\glfw\src\glfw.vcxproj">
+      <Project>{087E72A0-3835-310F-8BAB-75E34D9F1398}</Project>
+      <Name>glfw</Name>
       <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </ProjectReference>

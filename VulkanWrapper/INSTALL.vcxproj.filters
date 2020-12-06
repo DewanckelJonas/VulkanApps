@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="16.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <CustomBuild Include="C:\DAE\VoxelEngine\CMakeFiles\584cf0726acc9685bf8c7a28cb09b53d\INSTALL_force.rule">
+      <Filter>CMake Rules</Filter>
+    </CustomBuild>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="CMake Rules">
+      <UniqueIdentifier>{886435CE-F439-38D4-BD46-21BE79E6411A}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>

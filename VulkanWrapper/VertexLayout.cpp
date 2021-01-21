@@ -28,6 +28,7 @@ const VkPipelineVertexInputStateCreateInfo& vkw::VertexLayout::CreateVertexDescr
 
 	// Attribute descriptions
 	uint32_t offset{};
+	m_AttributeDescriptions.clear();
 	m_AttributeDescriptions.resize(m_Layout.size());
 
 	for (size_t i = 0; i < m_Layout.size(); i++)

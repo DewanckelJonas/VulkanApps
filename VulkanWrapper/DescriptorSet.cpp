@@ -61,7 +61,6 @@ void vkw::DescriptorSet::Allocate(VulkanDevice * pDevice, DescriptorPool * pPool
 	allocInfo.descriptorSetCount = 1;
 
 	ErrorCheck(vkAllocateDescriptorSets(pDevice->GetDevice(), &allocInfo, &m_DescriptorSet));
-	vkQueueWaitIdle(pDevice->GetQueue());
 
 
 	for (VkWriteDescriptorSet& writeDescriptorSet : m_WriteDescriptorSets)
@@ -70,7 +69,6 @@ void vkw::DescriptorSet::Allocate(VulkanDevice * pDevice, DescriptorPool * pPool
 	}
 
 	vkUpdateDescriptorSets(pDevice->GetDevice(), static_cast<uint32_t>(m_WriteDescriptorSets.size()), m_WriteDescriptorSets.data(), 0, nullptr);
-	vkQueueWaitIdle(pDevice->GetQueue());
 
 }
 

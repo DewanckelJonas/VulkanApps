@@ -4,35 +4,12 @@
 #include <iostream>
 #include <Base/Array3D.h>
 #include "VulkanApp.h"
+#include <Base/Ray.h>
 
 int main()
 {
 
-	Array3D<int> testArray{ 10, 20, 15 };
-
-	for (size_t x = 0; x < 10; x++)
-	{
-		for (size_t y = 0; y < 20; y++)
-		{
-			for (size_t z = 0; z < 15; z++)
-			{
-				testArray[x][y][z] = 0;
-			}
-		}
-	}
-	testArray[0][5][4] = 5;
-	for (size_t x = 0; x < 10; x++)
-	{
-		for(size_t y = 0; y < 20; y++)
-		{
-			for (size_t z = 0; z < 15; z++)
-			{
-				std::cout << testArray[x][y][z] << " ";
-			}
-			std::cout << std::endl;
-		}
-		std::cout << std::endl;
-	}
+	int test = floor(16.f - FLT_EPSILON);
 	vkw::VulkanDevice device{};
 	VulkanApp app{ &device };
 	app.Init(1920, 1080);

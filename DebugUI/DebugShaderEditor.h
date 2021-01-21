@@ -1,6 +1,7 @@
 #pragma once
 #include "DebugUIElements.h"
-#include "ImGuiColorTextEdit/TextEditor.h"
+#include "TextEditor.h"
+
 namespace vkw
 {
 	class ShaderEditor final : public IDebugUIElement
@@ -13,6 +14,7 @@ namespace vkw
 	private:
 		TextEditor m_Editor;
 		const char* m_FilePath = nullptr;
+		static bool s_GlslangInitialized;
 	};
 }
 

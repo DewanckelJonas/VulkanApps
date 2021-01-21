@@ -16,6 +16,15 @@
     <ClCompile Include="C:\DAE\VoxelEngine\Libs\imgui\misc\cpp\imgui_stdlib.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="C:\DAE\VoxelEngine\DebugUI\Button.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\DAE\VoxelEngine\DebugUI\DebugArray.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\DAE\VoxelEngine\DebugUI\DebugShaderEditor.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
     <ClCompile Include="C:\DAE\VoxelEngine\DebugUI\DebugUI.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -31,20 +40,18 @@
     <ClCompile Include="C:\DAE\VoxelEngine\DebugUI\imgui_impl_vulkan.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="DebugArray.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="ImGuiColorTextEdit\TextEditor.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="DebugShaderEditor.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Button.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
+    <ClCompile Include="TextEditor.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="C:\DAE\VoxelEngine\DebugUI\Button.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\DAE\VoxelEngine\DebugUI\DebugArray.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\DAE\VoxelEngine\DebugUI\DebugShaderEditor.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
     <ClInclude Include="C:\DAE\VoxelEngine\DebugUI\DebugUI.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -60,18 +67,7 @@
     <ClInclude Include="C:\DAE\VoxelEngine\DebugUI\imgui_impl_vulkan.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="DebugArray.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="ImGuiColorTextEdit\TextEditor.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="DebugShaderEditor.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Button.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
+    <ClInclude Include="TextEditor.h" />
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="C:\DAE\VoxelEngine\DebugUI\CMakeLists.txt" />

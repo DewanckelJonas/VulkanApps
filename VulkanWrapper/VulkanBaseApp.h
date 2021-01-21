@@ -53,7 +53,7 @@ namespace vkw
 	private:
 		void InitWindow(uint32_t width, uint32_t height);
 		void InitSynchronizations();
-		void InitSwapchain(VkPresentModeKHR preferredPresentMode = VK_PRESENT_MODE_FIFO_RELAXED_KHR, uint32_t swapchainImageCount = 2);
+		void InitSwapchain(VkPresentModeKHR preferredPresentMode = VK_PRESENT_MODE_IMMEDIATE_KHR, uint32_t swapchainImageCount = 2);
 		void InitDepthStencilBuffer();
 		void InitRenderPass();
 		void InitFramebuffers();

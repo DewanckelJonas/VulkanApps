@@ -67,7 +67,6 @@ void vkw::DebugUI::Render(VkSemaphore readyToRenderUISemaphore, FrameBuffer* pFr
 	ImGui_ImplVulkan_RenderDrawData(ImGui::GetDrawData(), commandBuffer);
 
 	vkCmdEndRenderPass(commandBuffer);
-	vkQueueWaitIdle(m_pDevice->GetQueue());
 	m_pCommandPool->EndSingleTimeCommands(commandBuffer, m_DebugRenderCompleteSemaphore, readyToRenderUISemaphore, VK_PIPELINE_STAGE_COLOR_ATTACHMENT_OUTPUT_BIT);
 }
 

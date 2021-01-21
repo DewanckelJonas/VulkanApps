@@ -17,8 +17,37 @@
     <CustomBuild Include="C:\DAE\VoxelEngine\Apps\CMakeLists.txt" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="C:\DAE\VoxelEngine\Shaders\MeshDebugRendering\Color.frag">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="C:\DAE\VoxelEngine\Shaders\MeshDebugRendering\ColorNormalPerspective.vert">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="C:\DAE\VoxelEngine\Shaders\MeshDebugRendering\ColorPerspective.vert">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="C:\DAE\VoxelEngine\Shaders\MeshDebugRendering\Diffuse.frag">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="C:\DAE\VoxelEngine\Shaders\MeshDebugRendering\Normal.frag">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="C:\DAE\VoxelEngine\Shaders\MeshDebugRendering\NormalPerspective.vert">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="C:\DAE\VoxelEngine\Shaders\MeshDebugRendering\UV.frag">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="C:\DAE\VoxelEngine\Shaders\MeshDebugRendering\UVPerspective.vert">
+      <Filter>Shaders</Filter>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
     <Filter Include="Header Files">
       <UniqueIdentifier>{B4DACBFE-C663-361D-BE79-5DE89BE6C8F6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Shaders">
+      <UniqueIdentifier>{0EAA4B45-1EF1-3D59-AAD2-119552C10AB5}</UniqueIdentifier>
     </Filter>
     <Filter Include="Source Files">
       <UniqueIdentifier>{F28E283B-CE07-3E98-B078-2915FC74D3F4}</UniqueIdentifier>

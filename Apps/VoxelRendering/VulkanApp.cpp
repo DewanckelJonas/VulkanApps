@@ -27,9 +27,32 @@
 #include <VulkanWrapper/IndexBuffer.h>
 #include <Base/Array3D.h>
 #include <DebugUI/DebugShaderEditor.h>
+#include <DebugUI/Button.h>
 
-VulkanApp::VulkanApp(vkw::VulkanDevice* pDevice):VulkanBaseApp(pDevice, "VoxelTest")
+const uint32_t ParticleCount = 100000;
+
+VulkanApp::VulkanApp(vkw::VulkanDevice* pDevice)
+	:VulkanBaseApp(pDevice, "VoxelTest")
+	,m_pChunks{1, 1, 1}
+	,m_pVertexBuffers{}
+	,m_pIndexBuffers{}
 {
+	const size_t chunkSize = 16;
+	int width = m_pChunks.GetWidth();
+	int height = m_pChunks.GetHeight();
+	int depth = m_pChunks.GetDepth();
+	for (size_t x = 0; x < width; x++)
+	{
+		for (size_t y = 0; y < height; y++)
+		{
+			for (size_t z = 0; z < depth; z++)
+			{
+				m_pChunks[x][y][z] = new VoxelChunk{ {chunkSize, chunkSize, chunkSize}, glm::vec3{x * chunkSize, y * chunkSize, z * chunkSize} };
+			}
+		}
+	}
+	m_pIndexBuffers.resize(width*height*depth);
+	m_pVertexBuffers.resize(width*height*depth);
 }
 
 VulkanApp::~VulkanApp()
@@ -50,17 +73,8 @@ void VulkanApp::Render()
 	submitInfo.signalSemaphoreCount = 1;
 	submitInfo.pSignalSemaphores = &GetRenderCompleteSemaphore();
 	submitInfo.commandBufferCount = 1;
-	if (m_UseRaymarching)
-	{
-		submitInfo.pCommandBuffers = &m_RaymarchDrawCommandBuffers[GetSwapchain()->GetActiveImageId()];
-	}else
-	if (m_UseInstancing)
-	{
-		submitInfo.pCommandBuffers = &m_InstancedDrawCommandBuffers[GetSwapchain()->GetActiveImageId()];
-	}else
-	{
-		submitInfo.pCommandBuffers = &m_NoInstanceDrawCommandBuffers[GetSwapchain()->GetActiveImageId()];
-	}
+	submitInfo.pCommandBuffers = &m_DrawCommandBuffers[GetSwapchain()->GetActiveImageId()];
+
 
 	ErrorCheck(vkQueueSubmit(GetDevice()->GetQueue(), 1, &submitInfo, VK_NULL_HANDLE));
 	
@@ -103,6 +117,41 @@ bool VulkanApp::Update(float dTime)
 	{
 		m_Camera.ProcessMouseMovement(sensitivity * mouseMovement.x, sensitivity * mouseMovement.y, true);
 	}
+	if(GetWindow()->IsMouseButtonPressed(MouseButton::RIGHT))
+	{
+		glm::ivec3 id;
+		Ray ray{ m_Camera.GetPosition(), m_Camera.GetFront() };
+		for (size_t i = 0; i < m_pIndexBuffers.size(); i++)
+		{
+			if(m_pChunks.Data()[i]->Raycast(id, ray, 0, 8.f))
+			{
+				const int brushSize = 1;
+				for (int x = -brushSize; x < brushSize; x++)
+				{
+					for (int y = -brushSize; y < brushSize; y++)
+					{
+						for (int z = -brushSize; z < brushSize; z++)
+						{
+							glm::ivec3 chunkSize = { m_pChunks.Data()[i]->GetData().GetWidth(), m_pChunks.Data()[i]->GetData().GetHeight(), m_pChunks.Data()[i]->GetData().GetDepth() };
+							glm::ivec3 voxelId{};
+							voxelId.x = glm::min(glm::max(id.x + x, 0), chunkSize.x);
+							voxelId.y = glm::min(glm::max(id.y + y, 0), chunkSize.y);
+							voxelId.z = glm::min(glm::max(id.z + z, 0), chunkSize.z);
+							m_pChunks.Data()[i]->GetData()[voxelId.x][voxelId.y][voxelId.z] = 0;
+						}
+					}
+				}
+				m_pChunks.Data()[i]->GenerateMesh();
+				delete m_pIndexBuffers[i];
+				delete m_pVertexBuffers[i];
+				std::vector<VertexAttribute> attributes = { VertexAttribute::POSITION, VertexAttribute::COLOR, VertexAttribute::NORMAL };
+				m_pIndexBuffers[i] = new vkw::IndexBuffer(GetDevice(), GetCommandPool(), m_pChunks.Data()[i]->GetIndexBuffer().size(), m_pChunks.Data()[i]->GetIndexBuffer().data());
+				m_pVertexBuffers[i] = new vkw::VertexBuffer(GetDevice(), GetCommandPool(), vkw::VertexLayout(attributes), m_pChunks.Data()[i]->GetVertexBuffer().size() * sizeof(float), m_pChunks.Data()[i]->GetVertexBuffer().data());
+				Reload();
+				break;
+			}
+		}
+	}
 	UpdateUniformBuffers(dTime);
 	std::chrono::steady_clock::time_point t2 = std::chrono::steady_clock::now();
 	m_UpdateTime = std::chrono::duration<float>(t2 - t1).count()*1000;
@@ -115,32 +164,25 @@ void VulkanApp::Init(uint32_t width, uint32_t height)
 	//EnableRaytracingExtension();
 	VulkanBaseApp::Init(width, height);
 	m_pUniformBuffer = new vkw::Buffer(GetDevice(), GetCommandPool(), VK_BUFFER_USAGE_UNIFORM_BUFFER_BIT, VK_MEMORY_PROPERTY_HOST_COHERENT_BIT | VK_MEMORY_PROPERTY_HOST_VISIBLE_BIT, size_t(sizeof(CameraInfo)), &m_Ubo);
-	m_pRaymarchUniformBuffer = new vkw::Buffer(GetDevice(), GetCommandPool(), VK_BUFFER_USAGE_UNIFORM_BUFFER_BIT, VK_MEMORY_PROPERTY_HOST_COHERENT_BIT | VK_MEMORY_PROPERTY_HOST_VISIBLE_BIT, size_t(sizeof(RaymarchInfo)), &m_RaymarchUbo);
-	CreateInstancedVertexBuffer();
-	CreateNoInstanceVertexBuffer();
+	CreateTerrainVertexBuffer();
+	CreateParticleBuffer();
 	m_pDescriptorPool = new vkw::DescriptorPool(GetDevice());
-	//m_pInstancedDescriptorSet = new vkw::DescriptorSet();
-	//m_pInstancedDescriptorSet->AddBinding(m_pUniformBuffer->GetDescriptor(), VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER, VK_SHADER_STAGE_VERTEX_BIT);
-	//m_pInstancedDescriptorSet->AddBinding(m_pTerrainBuffer->GetDescriptor(), VK_DESCRIPTOR_TYPE_STORAGE_BUFFER, VK_SHADER_STAGE_VERTEX_BIT);
 	m_pNoInstanceDescriptorSet = new vkw::DescriptorSet();
 	m_pNoInstanceDescriptorSet->AddBinding(m_pUniformBuffer->GetDescriptor(), VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER, VK_SHADER_STAGE_VERTEX_BIT);
-	//m_pRaymarchDescriptorSet = new vkw::DescriptorSet();
-	//m_pRaymarchDescriptorSet->AddBinding(m_pRaymarchUniformBuffer->GetDescriptor(), VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER, VK_SHADER_STAGE_FRAGMENT_BIT);
-	//m_pRaymarchDescriptorSet->AddBinding(m_pTerrainBuffer->GetDescriptor(), VK_DESCRIPTOR_TYPE_STORAGE_BUFFER, VK_SHADER_STAGE_FRAGMENT_BIT);
-	//m_pDescriptorPool->AddDescriptorSet(m_pInstancedDescriptorSet);
 	m_pDescriptorPool->AddDescriptorSet(m_pNoInstanceDescriptorSet);
-	//m_pDescriptorPool->AddDescriptorSet(m_pRaymarchDescriptorSet);
 	m_pDescriptorPool->Allocate();
-	//m_pInstancedGraphicsPipeline = new vkw::GraphicsPipeline(GetDevice(), GetRenderPass(), GetPipelineCache(), m_pInstancedDescriptorSet->GetLayout(), &m_pInstancedVertexBuffer->GetLayout(), "../Shaders/InstancedPerspective.vert.spv", "../Shaders/Color.frag.spv", VK_PRIMITIVE_TOPOLOGY_TRIANGLE_LIST, VK_FRONT_FACE_CLOCKWISE);
-	m_pNoInstanceGraphicsPipeline = new vkw::GraphicsPipeline(GetDevice(), GetRenderPass(), GetPipelineCache(), m_pNoInstanceDescriptorSet->GetLayout(), &m_pNoInstanceVertexBuffer->GetLayout(), "../Shaders/MeshDebugRendering/ColorNormalPerspective.vert.spv", "../Shaders/MeshDebugRendering/Diffuse.frag.spv", VK_PRIMITIVE_TOPOLOGY_TRIANGLE_LIST, VK_FRONT_FACE_CLOCKWISE);
-	//m_pRaymarchGraphicsPipeline = new vkw::GraphicsPipeline(GetDevice(), GetRenderPass(), GetPipelineCache(), m_pRaymarchDescriptorSet->GetLayout(), nullptr, "../Shaders/Raymarched.vert.spv", "../Shaders/Raymarched.frag.spv", VK_PRIMITIVE_TOPOLOGY_TRIANGLE_LIST, VK_FRONT_FACE_COUNTER_CLOCKWISE);
+	m_pNoInstanceGraphicsPipeline = new vkw::GraphicsPipeline(GetDevice(), GetRenderPass(), GetPipelineCache(), m_pNoInstanceDescriptorSet->GetLayout(), m_pVertexBuffers[0]->GetLayout(), "../Shaders/MeshDebugRendering/ColorNormalPerspective.vert.spv", "../Shaders/MeshDebugRendering/Diffuse.frag.spv");
+	vkw::VertexLayout particleLayout{ {VertexAttribute::POSITION, VertexAttribute::FLOAT, VertexAttribute::VEC3, VertexAttribute::FLOAT} };
+	m_pParticlePipeline = new vkw::GraphicsPipeline(GetDevice(), GetRenderPass(), GetPipelineCache(), m_pNoInstanceDescriptorSet->GetLayout(), particleLayout.GetLayout(), "../Shaders/Particles/Particle.vert.spv", "../Shaders/Particles/Particle.frag.spv", VK_PRIMITIVE_TOPOLOGY_POINT_LIST);
 	m_pDebugUI = new vkw::DebugUI(GetDevice(), GetCommandPool(), GetWindow(), GetSwapchain(), GetDepthStencilBuffer());
 	m_pDebugWindow = new vkw::DebugWindow{ "Properties" };
 	m_pDebugWindow->AddUIElement(UI_CREATEPARAMETER(m_CameraSpeed), "Camera");
 	m_pDebugWindow->AddUIElement(UI_CREATEPARAMETER(m_ShouldCaptureMouse), "Camera");
 	m_pDebugWindow->AddUIElement(UI_CREATEPARAMETER(m_UseInstancing));
 	m_pDebugWindow->AddUIElement(UI_CREATEPARAMETER(m_UseRaymarching));
-	m_pDebugWindow->AddUIElement(new vkw::ShaderEditor("../Shaders/MeshDebugRendering/ColorNormalPerspective.vert"), "Shader");
+	m_pDebugWindow->AddUIElement(new vkw::ShaderEditor("../Shaders/Particles/Particle.vert"), "Shader");
+	std::function<void()> callBack = std::bind(&VulkanApp::Reload, this);
+	m_pDebugWindow->AddUIElement(new vkw::Button("Rebuild Pipeline", callBack), "Shader");
 	InitDebugStatWindow();
 	BuildDrawCommandBuffers();
 	m_PrevMousePos = GetWindow()->GetMousePos();
@@ -151,16 +193,17 @@ void VulkanApp::Cleanup()
 	ErrorCheck(vkQueueWaitIdle(GetDevice()->GetQueue()));
 	delete m_pDebugWindow;
 	delete m_pDebugUI;
-	//delete m_pInstancedGraphicsPipeline;
 	delete m_pNoInstanceGraphicsPipeline;
-	//delete m_pRaymarchGraphicsPipeline;
+	delete m_pParticlePipeline;
+	delete m_pParticleBuffer;
 	delete m_pDescriptorPool;
 	delete m_pUniformBuffer;
-	delete m_pRaymarchUniformBuffer;
-	delete m_pTerrainBuffer;
-	delete m_pInstancedVertexBuffer;
-	delete m_pNoInstanceVertexBuffer;
-	delete m_pIndexBuffer;
+	for (size_t i = 0; i < m_pVertexBuffers.size(); i++)
+	{
+		delete m_pVertexBuffers[i];
+		delete m_pIndexBuffers[i];
+		delete m_pChunks.Data()[i];
+	}
 	VulkanBaseApp::Cleanup();
 }
 
@@ -171,127 +214,58 @@ void VulkanApp::EnableRaytracingExtension()
 	GetDevice()->EnableDeviceExtension(VK_NV_RAY_TRACING_EXTENSION_NAME);
 }
 
-void VulkanApp::CreateInstancedVertexBuffer()
+void VulkanApp::CreateTerrainVertexBuffer()
 {
-	glm::vec3 cubeVertices[] = {
-	{-1.0f,-1.0f,-1.0f},
-	{-1.0f,-1.0f, 1.0f },
-	{-1.0f, 1.0f, 1.0f}, 
-	{1.0f, 1.0f,-1.0f}, 
-	{-1.0f,-1.0f,-1.0f},
-	{-1.0f, 1.0f,-1.0f}, 
-	{1.0f,-1.0f, 1.0f},
-	{-1.0f,-1.0f,-1.0f},
-	{1.0f,-1.0f,-1.0f},
-	{1.0f, 1.0f,-1.0f},
-	{1.0f,-1.0f,-1.0f},
-	{-1.0f,-1.0f,-1.0f},
-	{-1.0f,-1.0f,-1.0f},
-	{-1.0f, 1.0f, 1.0f},
-	{-1.0f, 1.0f,-1.0f},
-	{1.0f,-1.0f, 1.0f},
-	{-1.0f,-1.0f, 1.0},
-	{-1.0f,-1.0f,-1.0},
-	{-1.0f, 1.0f, 1.0},
-	{-1.0f,-1.0f, 1.0},
-	{1.0f,-1.0f, 1.0f},
-	{1.0f, 1.0f, 1.0f},
-	{1.0f,-1.0f,-1.0f},
-	{1.0f, 1.0f,-1.0f},
-	{1.0f,-1.0f,-1.0f},
-	{1.0f, 1.0f, 1.0f},
-	{1.0f,-1.0f, 1.0f},
-	{1.0f, 1.0f, 1.0f},
-	{1.0f, 1.0f,-1.0f},
-	{-1.0f, 1.0f,-1.0},
-	{1.0f, 1.0f, 1.0f},
-	{-1.0f, 1.0f,-1.0},
-	{-1.0f, 1.0f, 1.0},
-	{1.0f, 1.0f, 1.0f},
-	{-1.0f, 1.0f, 1.0},
-	{1.0f,-1.0f, 1.0f}
-	};
-
-	bool* terrain = new bool[1000];
-
-	for (size_t i = 0; i < 1000; i++)
+	std::vector<VertexAttribute> attributes = { VertexAttribute::POSITION, VertexAttribute::COLOR, VertexAttribute::NORMAL };
+	for (size_t i = 0; i < m_pIndexBuffers.size(); i++)
 	{
-		terrain[i] = false;
-	}
-
-	for (size_t y = 0; y < 10; y++)
-	{
-		for (size_t z = 0; z < 10; z++)
+		const size_t chunkSize = m_pChunks.Data()[i]->GetData().GetWidth() * m_pChunks.Data()[i]->GetData().GetHeight() * m_pChunks.Data()[i]->GetData().GetDepth();
+		for (size_t j = 0; j < chunkSize; j++)
 		{
-			for (size_t x = 0; x < 10; x++)
-			{
-				terrain[y * 100 + z * 10 + x] = true;
-			}
+			m_pChunks.Data()[i]->GetData().Data()[j] = 1;
 		}
+
+		m_pChunks.Data()[i]->GenerateMesh();
+		m_pIndexBuffers[i] = new vkw::IndexBuffer(GetDevice(), GetCommandPool(), m_pChunks.Data()[i]->GetIndexBuffer().size(), m_pChunks.Data()[i]->GetIndexBuffer().data());
+		m_pVertexBuffers[i] = new vkw::VertexBuffer(GetDevice(), GetCommandPool(), vkw::VertexLayout(attributes), m_pChunks.Data()[i]->GetVertexBuffer().size()*sizeof(float), m_pChunks.Data()[i]->GetVertexBuffer().data());
 	}
-
-	m_pTerrainBuffer = new vkw::Buffer(GetDevice(), GetCommandPool(), VK_BUFFER_USAGE_STORAGE_BUFFER_BIT, VK_MEMORY_PROPERTY_DEVICE_LOCAL_BIT, 1000, terrain);
-
-	m_InstancedVertexCount = sizeof(cubeVertices)/sizeof(glm::vec3);
-	m_pInstancedVertexBuffer = new vkw::VertexBuffer(GetDevice(), GetCommandPool(), vkw::VertexLayout({ VertexAttribute::POSITION  }), sizeof(cubeVertices), cubeVertices);
+	
 }
 
-void VulkanApp::CreateNoInstanceVertexBuffer()
+void VulkanApp::CreateParticleBuffer()
 {
-	Mesh* cubeMesh = CreateCubeMesh(1.f, {0.f,0.f}, {0.3f, 0.6f, 0.f, 1.f});
-	std::vector<VertexAttribute> attributes = { VertexAttribute::POSITION, VertexAttribute::COLOR, VertexAttribute::NORMAL };
-	size_t cubeDataSize = cubeMesh->GetVertexDataSize(attributes);
+	std::default_random_engine rndEngine((unsigned)time(nullptr));
+	std::uniform_real_distribution<float> rndPos(0.0f, 16.0f);
+	std::uniform_real_distribution<float> rnd(-16.0f, 16.0f);
+	std::uniform_real_distribution<float> rndAlpha(0.1f, 1.f);
 
-	const size_t size{ 16 };
-	Array3D<uint32_t> map{ size,size,size };
-	for (size_t i = 0; i < size; i++)
-	{
-		map[size / 2][i][size / 2] = 1;
-	}
-	std::vector<float> vertices{};
-	vertices.resize(size*size*size*cubeDataSize);
-	float* writePos = vertices.data();
-	size_t vertexOffset = 0;
-	std::vector<uint32_t> indices{};
-	indices.resize(cubeMesh->GetIndexCount()* size*size*size);
-	uint32_t* indexWritePos = indices.data();
-	for (size_t y = 0; y < size; y++)
-	{
-		for (size_t z = 0; z < size; z++)
-		{
-			for (size_t x = 0; x < size; x++)
-			{
-				if (map[x][y][z] == 0)
-				{
-					glm::mat4x4 translation = glm::translate(glm::mat4x4(1.f), { x, y , z });
-					writePos = cubeMesh->CreateVertices(attributes, writePos, translation);
-					indexWritePos = cubeMesh->GetIndices(vertexOffset, indexWritePos);
-					vertexOffset += cubeMesh->GetVertexCount(attributes);
-				}
-			}
-		}
+	std::vector<Particle> particleBuffer(ParticleCount);
+	for (auto& particle : particleBuffer) {
+		particle.Position = glm::vec3(rnd(rndEngine), rnd(rndEngine), rnd(rndEngine));
+		particle.Size = rndPos(rndEngine);
+		particle.Velocity = glm::vec3(rnd(rndEngine), rnd(rndEngine), rnd(rndEngine));
+		particle.Alpha = rndAlpha(rndEngine);
 	}
 
-	m_pIndexBuffer = new vkw::IndexBuffer(GetDevice(), GetCommandPool(), indices.size(), indices.data());
-	m_pNoInstanceVertexBuffer = new vkw::VertexBuffer(GetDevice(), GetCommandPool(), vkw::VertexLayout(attributes), vertices.size(), vertices.data());
-
+	m_pParticleBuffer = new vkw::Buffer(GetDevice(), GetCommandPool()
+		, VK_BUFFER_USAGE_VERTEX_BUFFER_BIT | VK_BUFFER_USAGE_STORAGE_BUFFER_BIT
+		, VK_MEMORY_PROPERTY_DEVICE_LOCAL_BIT
+		,sizeof(Particle)*particleBuffer.size()
+		,particleBuffer.data()
+	);
 }
 
 void VulkanApp::AllocateDrawCommandBuffers()
 {
-	//m_InstancedDrawCommandBuffers.resize(GetSwapchain()->GetImageCount());
-	m_NoInstanceDrawCommandBuffers.resize(GetSwapchain()->GetImageCount());
-	m_RaymarchDrawCommandBuffers.resize(GetSwapchain()->GetImageCount());
+	m_DrawCommandBuffers.resize(GetSwapchain()->GetImageCount());
 
 	VkCommandBufferAllocateInfo commandBufferAllocateInfo{};
 	commandBufferAllocateInfo.sType = VK_STRUCTURE_TYPE_COMMAND_BUFFER_ALLOCATE_INFO;
 	commandBufferAllocateInfo.commandPool = GetCommandPool()->GetHandle();
 	commandBufferAllocateInfo.level = VK_COMMAND_BUFFER_LEVEL_PRIMARY;
-	commandBufferAllocateInfo.commandBufferCount = uint32_t(m_NoInstanceDrawCommandBuffers.size());
+	commandBufferAllocateInfo.commandBufferCount = uint32_t(m_DrawCommandBuffers.size());
 
-	//ErrorCheck(vkAllocateCommandBuffers(GetDevice()->GetDevice(), &commandBufferAllocateInfo, m_InstancedDrawCommandBuffers.data()));
-	ErrorCheck(vkAllocateCommandBuffers(GetDevice()->GetDevice(), &commandBufferAllocateInfo, m_NoInstanceDrawCommandBuffers.data()));
-	//ErrorCheck(vkAllocateCommandBuffers(GetDevice()->GetDevice(), &commandBufferAllocateInfo, m_RaymarchDrawCommandBuffers.data()));
+	ErrorCheck(vkAllocateCommandBuffers(GetDevice()->GetDevice(), &commandBufferAllocateInfo, m_DrawCommandBuffers.data()));
 }
 
 void VulkanApp::BuildDrawCommandBuffers()
@@ -324,91 +298,44 @@ void VulkanApp::BuildDrawCommandBuffers()
 	scissor.extent = GetWindow()->GetSurfaceSize();
 	scissor.offset = { 0, 0 };
 	
-	//for (int32_t i = 0; i < m_InstancedDrawCommandBuffers.size(); ++i)
-	//{
-	//	// Set target frame buffer
-	//	renderPassBeginInfo.framebuffer = GetFrameBuffers()[i]->GetHandle();
-	//
-	//	ErrorCheck(vkBeginCommandBuffer(m_InstancedDrawCommandBuffers[i], &cmdBufferBeginInfo));
-	//
-	//	vkCmdBeginRenderPass(m_InstancedDrawCommandBuffers[i], &renderPassBeginInfo, VK_SUBPASS_CONTENTS_INLINE);
-	//
-	//
-	//	vkCmdSetViewport(m_InstancedDrawCommandBuffers[i], 0, 1, &viewport);
-	//
-	//	vkCmdSetScissor(m_InstancedDrawCommandBuffers[i], 0, 1, &scissor);
-	//
-	//	vkCmdBindDescriptorSets(m_InstancedDrawCommandBuffers[i], VK_PIPELINE_BIND_POINT_GRAPHICS, m_pInstancedGraphicsPipeline->GetLayout(), 0, 1, &m_pInstancedDescriptorSet->GetHandle(), 0, NULL);
-	//
-	//	vkCmdBindPipeline(m_InstancedDrawCommandBuffers[i], VK_PIPELINE_BIND_POINT_GRAPHICS, m_pInstancedGraphicsPipeline->GetPipeline());
-	//	VkDeviceSize offsets[1] = { 0 };
-	//	vkCmdBindVertexBuffers(m_InstancedDrawCommandBuffers[i], 0, 1, &m_pInstancedVertexBuffer->GetBuffer().GetHandle(), offsets);
-	//	vkCmdDraw(m_InstancedDrawCommandBuffers[i], m_InstancedVertexCount, 1000000, 0, 0);
-	//	//vkCmdBindIndexBuffer(GetDrawCommandBuffers()[i], m_pIndexBuffer->GetHandle(), 0, VK_INDEX_TYPE_UINT32);
-	//	//vkCmdDrawIndexed(GetDrawCommandBuffers()[i], 6, 1, 0, 0, 1);
-	//
-	//
-	//	vkCmdEndRenderPass(m_InstancedDrawCommandBuffers[i]);
-	//
-	//	ErrorCheck(vkEndCommandBuffer(m_InstancedDrawCommandBuffers[i]));
-	//}
 
-
-	for (int32_t i = 0; i < m_NoInstanceDrawCommandBuffers.size(); ++i)
+	for (int32_t i = 0; i < m_DrawCommandBuffers.size(); ++i)
 	{
 		// Set target frame buffer
 		renderPassBeginInfo.framebuffer = GetFrameBuffers()[i]->GetHandle();
 
-		ErrorCheck(vkBeginCommandBuffer(m_NoInstanceDrawCommandBuffers[i], &cmdBufferBeginInfo));
+		ErrorCheck(vkBeginCommandBuffer(m_DrawCommandBuffers[i], &cmdBufferBeginInfo));
 
-		vkCmdBeginRenderPass(m_NoInstanceDrawCommandBuffers[i], &renderPassBeginInfo, VK_SUBPASS_CONTENTS_INLINE);
+		vkCmdBeginRenderPass(m_DrawCommandBuffers[i], &renderPassBeginInfo, VK_SUBPASS_CONTENTS_INLINE);
 
 
-		vkCmdSetViewport(m_NoInstanceDrawCommandBuffers[i], 0, 1, &viewport);
+		vkCmdSetViewport(m_DrawCommandBuffers[i], 0, 1, &viewport);
 
-		vkCmdSetScissor(m_NoInstanceDrawCommandBuffers[i], 0, 1, &scissor);
+		vkCmdSetScissor(m_DrawCommandBuffers[i], 0, 1, &scissor);
 
-		vkCmdBindDescriptorSets(m_NoInstanceDrawCommandBuffers[i], VK_PIPELINE_BIND_POINT_GRAPHICS, m_pNoInstanceGraphicsPipeline->GetLayout(), 0, 1, &m_pNoInstanceDescriptorSet->GetHandle(), 0, NULL);
+		vkCmdBindDescriptorSets(m_DrawCommandBuffers[i], VK_PIPELINE_BIND_POINT_GRAPHICS, m_pNoInstanceGraphicsPipeline->GetLayout(), 0, 1, &m_pNoInstanceDescriptorSet->GetHandle(), 0, NULL);
 
-		vkCmdBindPipeline(m_NoInstanceDrawCommandBuffers[i], VK_PIPELINE_BIND_POINT_GRAPHICS, m_pNoInstanceGraphicsPipeline->GetPipeline());
 		VkDeviceSize offsets[1] = { 0 };
-		vkCmdBindVertexBuffers(m_NoInstanceDrawCommandBuffers[i], 0, 1, &m_pNoInstanceVertexBuffer->GetBuffer().GetHandle(), offsets);
-		vkCmdBindIndexBuffer(m_NoInstanceDrawCommandBuffers[i], m_pIndexBuffer->GetBuffer().GetHandle(), 0, VK_INDEX_TYPE_UINT32);
-		vkCmdDrawIndexed(m_NoInstanceDrawCommandBuffers[i], uint32_t(m_pIndexBuffer->GetIndexCount()), 1, 0, 0, 1);
-		vkCmdEndRenderPass(m_NoInstanceDrawCommandBuffers[i]);
-		ErrorCheck(vkEndCommandBuffer(m_NoInstanceDrawCommandBuffers[i]));
+		vkCmdBindPipeline(m_DrawCommandBuffers[i], VK_PIPELINE_BIND_POINT_GRAPHICS, m_pNoInstanceGraphicsPipeline->GetPipeline());
+		for (size_t j = 0; j < m_pIndexBuffers.size(); j++)
+		{
+			vkCmdBindVertexBuffers(m_DrawCommandBuffers[i], 0, 1, &m_pVertexBuffers[j]->GetBuffer().GetHandle(), offsets);
+			vkCmdBindIndexBuffer(m_DrawCommandBuffers[i], m_pIndexBuffers[j]->GetBuffer().GetHandle(), 0, VK_INDEX_TYPE_UINT32);
+			vkCmdDrawIndexed(m_DrawCommandBuffers[i], uint32_t(m_pIndexBuffers[j]->GetIndexCount()), 1, 0, 0, 1);
+		}
+
+		/*vkCmdBindDescriptorSets(m_DrawCommandBuffers[i], VK_PIPELINE_BIND_POINT_GRAPHICS, m_pParticlePipeline->GetLayout(), 0, 1, &m_pNoInstanceDescriptorSet->GetHandle(), 0, NULL);
+		vkCmdBindPipeline(m_DrawCommandBuffers[i], VK_PIPELINE_BIND_POINT_GRAPHICS, m_pParticlePipeline->GetPipeline());
+		vkCmdBindVertexBuffers(m_DrawCommandBuffers[i], 0, 1, &m_pParticleBuffer->GetHandle(), offsets);
+		vkCmdDraw(m_DrawCommandBuffers[i], ParticleCount, 1, 0, 0);*/
+		vkCmdEndRenderPass(m_DrawCommandBuffers[i]);
+		ErrorCheck(vkEndCommandBuffer(m_DrawCommandBuffers[i]));
 	}
-
-	//for (int32_t i = 0; i < m_RaymarchDrawCommandBuffers.size(); ++i)
-	//{
-	//	// Set target frame buffer
-	//	renderPassBeginInfo.framebuffer = GetFrameBuffers()[i]->GetHandle();
-	//
-	//	ErrorCheck(vkBeginCommandBuffer(m_RaymarchDrawCommandBuffers[i], &cmdBufferBeginInfo));
-	//
-	//	vkCmdBeginRenderPass(m_RaymarchDrawCommandBuffers[i], &renderPassBeginInfo, VK_SUBPASS_CONTENTS_INLINE);
-	//
-	//
-	//	vkCmdSetViewport(m_RaymarchDrawCommandBuffers[i], 0, 1, &viewport);
-	//
-	//	vkCmdSetScissor(m_RaymarchDrawCommandBuffers[i], 0, 1, &scissor);
-	//
-	//	vkCmdBindDescriptorSets(m_RaymarchDrawCommandBuffers[i], VK_PIPELINE_BIND_POINT_GRAPHICS, m_pRaymarchGraphicsPipeline->GetLayout(), 0, 1, &m_pRaymarchDescriptorSet->GetHandle(), 0, NULL);
-	//
-	//	vkCmdBindPipeline(m_RaymarchDrawCommandBuffers[i], VK_PIPELINE_BIND_POINT_GRAPHICS, m_pRaymarchGraphicsPipeline->GetPipeline());
-	//	vkCmdDraw(m_RaymarchDrawCommandBuffers[i], 3, 1, 0, 0);
-	//
-	//	vkCmdEndRenderPass(m_RaymarchDrawCommandBuffers[i]);
-	//	ErrorCheck(vkEndCommandBuffer(m_RaymarchDrawCommandBuffers[i]));
-	//}
-
 }
 
 void VulkanApp::FreeDrawCommandBuffers()
 {
-	//vkFreeCommandBuffers(GetDevice()->GetDevice(), GetCommandPool()->GetHandle(), uint32_t(m_InstancedDrawCommandBuffers.size()), m_InstancedDrawCommandBuffers.data());
-	vkFreeCommandBuffers(GetDevice()->GetDevice(), GetCommandPool()->GetHandle(), uint32_t(m_NoInstanceDrawCommandBuffers.size()), m_NoInstanceDrawCommandBuffers.data());
-	//vkFreeCommandBuffers(GetDevice()->GetDevice(), GetCommandPool()->GetHandle(), uint32_t(m_RaymarchDrawCommandBuffers.size()), m_RaymarchDrawCommandBuffers.data());
+	vkFreeCommandBuffers(GetDevice()->GetDevice(), GetCommandPool()->GetHandle(), uint32_t(m_DrawCommandBuffers.size()), m_DrawCommandBuffers.data());
 }
 
 void VulkanApp::UpdateUniformBuffers(float dTime)
@@ -417,13 +344,16 @@ void VulkanApp::UpdateUniformBuffers(float dTime)
 	m_Ubo.view = m_Camera.GetViewMatrix();
 	m_Ubo.time += dTime;
 	m_pUniformBuffer->Update(&m_Ubo, sizeof(m_Ubo), GetCommandPool());
-	m_RaymarchUbo.position = glm::vec4(m_Camera.GetPosition(), 0.f);
-	m_RaymarchUbo.forward = glm::vec4(m_Camera.GetFront(), 0.f);
-	m_RaymarchUbo.right = m_Camera.GetRight();
-	m_RaymarchUbo.up = m_Camera.GetUp();
-	m_RaymarchUbo.aspectRatio = m_Camera.GetAspectRatio();
-	m_RaymarchUbo.time += dTime;
-	m_pRaymarchUniformBuffer->Update(&m_RaymarchUbo, sizeof(m_RaymarchUbo), GetCommandPool());
+}
+
+void VulkanApp::Reload()
+{
+	vkQueueWaitIdle(GetDevice()->GetQueue());
+	FreeDrawCommandBuffers();
+	m_pNoInstanceGraphicsPipeline->Rebuild();
+	m_pParticlePipeline->Rebuild();
+	AllocateDrawCommandBuffers();
+	BuildDrawCommandBuffers();
 }
 
 void VulkanApp::InitDebugStatWindow()

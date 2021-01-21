@@ -7,7 +7,7 @@
 #include "VulkanHelpers.h"
 #include "VulkanDevice.h"
 #include "Window.h"
-
+#include "AppInfo.h"
 
 using namespace vkw;
 VulkanDevice::VulkanDevice()
@@ -107,17 +107,10 @@ void VulkanDevice::SetUpLayersAndExtensions()
 
 void VulkanDevice::InitInstance()
 {
-	VkApplicationInfo ApplicationInfo{};
-	ApplicationInfo.sType = VK_STRUCTURE_TYPE_APPLICATION_INFO;
-	ApplicationInfo.apiVersion = VK_API_VERSION_1_1;
-	ApplicationInfo.applicationVersion = VK_MAKE_VERSION(0, 1, 0);
-	ApplicationInfo.pApplicationName = "Vulkan Framework";
-
-
-
+	
 	VkInstanceCreateInfo InstanceCreateInfo{};
 	InstanceCreateInfo.sType = VK_STRUCTURE_TYPE_INSTANCE_CREATE_INFO;
-	InstanceCreateInfo.pApplicationInfo = &ApplicationInfo;
+	InstanceCreateInfo.pApplicationInfo = &APP_INFO;
 	InstanceCreateInfo.enabledLayerCount = uint32_t(m_InstanceLayers.size());
 	InstanceCreateInfo.ppEnabledLayerNames = m_InstanceLayers.data();
 	InstanceCreateInfo.enabledExtensionCount = uint32_t(m_InstanceExtensions.size());

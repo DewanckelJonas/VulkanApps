@@ -251,7 +251,6 @@ void EndSingleTimeCommands(VkDevice device, VkQueue graphicsQueue, VkCommandPool
 
 	// Wait for the fence to signal that command buffer has finished executing
 	ErrorCheck(vkWaitForFences(device, 1, &fence, VK_TRUE, 1000000000));
-	//vkQueueWaitIdle(graphicsQueue);
 	vkFreeCommandBuffers(device, commandPool, 1, &commandBuffer);
 
 	vkDestroyFence(device, fence, nullptr);

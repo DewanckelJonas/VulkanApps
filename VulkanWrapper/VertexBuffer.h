@@ -15,7 +15,7 @@ namespace vkw
 			m_VertexCount = size / m_Layout.GetStride();
 		}
 		Buffer& GetBuffer() { return m_Buffer; } 
-		VertexLayout& GetLayout() { return m_Layout; } 
+		const VertexLayout& GetLayout() { return m_Layout; } 
 		size_t GetVertexCount() { return m_VertexCount; }
 
 	private:

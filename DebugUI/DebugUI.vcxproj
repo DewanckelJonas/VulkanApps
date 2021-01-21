@@ -78,7 +78,7 @@
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
-      <AdditionalIncludeDirectories>C:\DAE\VoxelEngine\Libs\glm;C:\DAE\VoxelEngine\Libs\glfw\include;C:\DAE\VoxelEngine\Libs\imgui;C:\DAE\VoxelEngine\Libs\vulkan;C:\DAE\VoxelEngine;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\DAE\VoxelEngine\Libs\glm;C:\DAE\VoxelEngine\Libs\glfw\include;C:\DAE\VoxelEngine\Libs\imgui;C:\DAE\VoxelEngine\Libs\vulkan;C:\DAE\VoxelEngine;C:\DAE\VoxelEngine\DebugUI\..\Libs\glslang;C:\DAE\VoxelEngine\Libs\glslang\glslang\..;C:\DAE\VoxelEngine\include;C:\DAE\VoxelEngine\Libs\glslang\SPIRV\..;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <AssemblerListingLocation>$(IntDir)</AssemblerListingLocation>
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
       <CompileAs>CompileAsCpp</CompileAs>
@@ -96,10 +96,10 @@
     </ClCompile>
     <ResourceCompile>
       <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;NOMINMAX;_USE_MATH_DEFINES;CMAKE_INTDIR=\"Debug\";%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>C:\DAE\VoxelEngine\Libs\glm;C:\DAE\VoxelEngine\Libs\glfw\include;C:\DAE\VoxelEngine\Libs\imgui;C:\DAE\VoxelEngine\Libs\vulkan;C:\DAE\VoxelEngine;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\DAE\VoxelEngine\Libs\glm;C:\DAE\VoxelEngine\Libs\glfw\include;C:\DAE\VoxelEngine\Libs\imgui;C:\DAE\VoxelEngine\Libs\vulkan;C:\DAE\VoxelEngine;C:\DAE\VoxelEngine\DebugUI\..\Libs\glslang;C:\DAE\VoxelEngine\Libs\glslang\glslang\..;C:\DAE\VoxelEngine\include;C:\DAE\VoxelEngine\Libs\glslang\SPIRV\..;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ResourceCompile>
     <Midl>
-      <AdditionalIncludeDirectories>C:\DAE\VoxelEngine\Libs\glm;C:\DAE\VoxelEngine\Libs\glfw\include;C:\DAE\VoxelEngine\Libs\imgui;C:\DAE\VoxelEngine\Libs\vulkan;C:\DAE\VoxelEngine;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\DAE\VoxelEngine\Libs\glm;C:\DAE\VoxelEngine\Libs\glfw\include;C:\DAE\VoxelEngine\Libs\imgui;C:\DAE\VoxelEngine\Libs\vulkan;C:\DAE\VoxelEngine;C:\DAE\VoxelEngine\DebugUI\..\Libs\glslang;C:\DAE\VoxelEngine\Libs\glslang\glslang\..;C:\DAE\VoxelEngine\include;C:\DAE\VoxelEngine\Libs\glslang\SPIRV\..;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
       <HeaderFileName>%(Filename).h</HeaderFileName>
       <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
@@ -112,7 +112,7 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
-      <AdditionalIncludeDirectories>C:\DAE\VoxelEngine\Libs\glm;C:\DAE\VoxelEngine\Libs\glfw\include;C:\DAE\VoxelEngine\Libs\imgui;C:\DAE\VoxelEngine\Libs\vulkan;C:\DAE\VoxelEngine;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\DAE\VoxelEngine\Libs\glm;C:\DAE\VoxelEngine\Libs\glfw\include;C:\DAE\VoxelEngine\Libs\imgui;C:\DAE\VoxelEngine\Libs\vulkan;C:\DAE\VoxelEngine;C:\DAE\VoxelEngine\DebugUI\..\Libs\glslang;C:\DAE\VoxelEngine\Libs\glslang\glslang\..;C:\DAE\VoxelEngine\include;C:\DAE\VoxelEngine\Libs\glslang\SPIRV\..;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <AssemblerListingLocation>$(IntDir)</AssemblerListingLocation>
       <CompileAs>CompileAsCpp</CompileAs>
       <ExceptionHandling>Sync</ExceptionHandling>
@@ -130,10 +130,10 @@
     </ClCompile>
     <ResourceCompile>
       <PreprocessorDefinitions>WIN32;_WINDOWS;NOMINMAX;_USE_MATH_DEFINES;NDEBUG;CMAKE_INTDIR=\"Release\";%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>C:\DAE\VoxelEngine\Libs\glm;C:\DAE\VoxelEngine\Libs\glfw\include;C:\DAE\VoxelEngine\Libs\imgui;C:\DAE\VoxelEngine\Libs\vulkan;C:\DAE\VoxelEngine;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\DAE\VoxelEngine\Libs\glm;C:\DAE\VoxelEngine\Libs\glfw\include;C:\DAE\VoxelEngine\Libs\imgui;C:\DAE\VoxelEngine\Libs\vulkan;C:\DAE\VoxelEngine;C:\DAE\VoxelEngine\DebugUI\..\Libs\glslang;C:\DAE\VoxelEngine\Libs\glslang\glslang\..;C:\DAE\VoxelEngine\include;C:\DAE\VoxelEngine\Libs\glslang\SPIRV\..;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ResourceCompile>
     <Midl>
-      <AdditionalIncludeDirectories>C:\DAE\VoxelEngine\Libs\glm;C:\DAE\VoxelEngine\Libs\glfw\include;C:\DAE\VoxelEngine\Libs\imgui;C:\DAE\VoxelEngine\Libs\vulkan;C:\DAE\VoxelEngine;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\DAE\VoxelEngine\Libs\glm;C:\DAE\VoxelEngine\Libs\glfw\include;C:\DAE\VoxelEngine\Libs\imgui;C:\DAE\VoxelEngine\Libs\vulkan;C:\DAE\VoxelEngine;C:\DAE\VoxelEngine\DebugUI\..\Libs\glslang;C:\DAE\VoxelEngine\Libs\glslang\glslang\..;C:\DAE\VoxelEngine\include;C:\DAE\VoxelEngine\Libs\glslang\SPIRV\..;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
       <HeaderFileName>%(Filename).h</HeaderFileName>
       <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
@@ -146,7 +146,7 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">
     <ClCompile>
-      <AdditionalIncludeDirectories>C:\DAE\VoxelEngine\Libs\glm;C:\DAE\VoxelEngine\Libs\glfw\include;C:\DAE\VoxelEngine\Libs\imgui;C:\DAE\VoxelEngine\Libs\vulkan;C:\DAE\VoxelEngine;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\DAE\VoxelEngine\Libs\glm;C:\DAE\VoxelEngine\Libs\glfw\include;C:\DAE\VoxelEngine\Libs\imgui;C:\DAE\VoxelEngine\Libs\vulkan;C:\DAE\VoxelEngine;C:\DAE\VoxelEngine\DebugUI\..\Libs\glslang;C:\DAE\VoxelEngine\Libs\glslang\glslang\..;C:\DAE\VoxelEngine\include;C:\DAE\VoxelEngine\Libs\glslang\SPIRV\..;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <AssemblerListingLocation>$(IntDir)</AssemblerListingLocation>
       <CompileAs>CompileAsCpp</CompileAs>
       <ExceptionHandling>Sync</ExceptionHandling>
@@ -164,10 +164,10 @@
     </ClCompile>
     <ResourceCompile>
       <PreprocessorDefinitions>WIN32;_WINDOWS;NOMINMAX;_USE_MATH_DEFINES;NDEBUG;CMAKE_INTDIR=\"MinSizeRel\";%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>C:\DAE\VoxelEngine\Libs\glm;C:\DAE\VoxelEngine\Libs\glfw\include;C:\DAE\VoxelEngine\Libs\imgui;C:\DAE\VoxelEngine\Libs\vulkan;C:\DAE\VoxelEngine;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\DAE\VoxelEngine\Libs\glm;C:\DAE\VoxelEngine\Libs\glfw\include;C:\DAE\VoxelEngine\Libs\imgui;C:\DAE\VoxelEngine\Libs\vulkan;C:\DAE\VoxelEngine;C:\DAE\VoxelEngine\DebugUI\..\Libs\glslang;C:\DAE\VoxelEngine\Libs\glslang\glslang\..;C:\DAE\VoxelEngine\include;C:\DAE\VoxelEngine\Libs\glslang\SPIRV\..;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ResourceCompile>
     <Midl>
-      <AdditionalIncludeDirectories>C:\DAE\VoxelEngine\Libs\glm;C:\DAE\VoxelEngine\Libs\glfw\include;C:\DAE\VoxelEngine\Libs\imgui;C:\DAE\VoxelEngine\Libs\vulkan;C:\DAE\VoxelEngine;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\DAE\VoxelEngine\Libs\glm;C:\DAE\VoxelEngine\Libs\glfw\include;C:\DAE\VoxelEngine\Libs\imgui;C:\DAE\VoxelEngine\Libs\vulkan;C:\DAE\VoxelEngine;C:\DAE\VoxelEngine\DebugUI\..\Libs\glslang;C:\DAE\VoxelEngine\Libs\glslang\glslang\..;C:\DAE\VoxelEngine\include;C:\DAE\VoxelEngine\Libs\glslang\SPIRV\..;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
       <HeaderFileName>%(Filename).h</HeaderFileName>
       <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
@@ -180,7 +180,7 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">
     <ClCompile>
-      <AdditionalIncludeDirectories>C:\DAE\VoxelEngine\Libs\glm;C:\DAE\VoxelEngine\Libs\glfw\include;C:\DAE\VoxelEngine\Libs\imgui;C:\DAE\VoxelEngine\Libs\vulkan;C:\DAE\VoxelEngine;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\DAE\VoxelEngine\Libs\glm;C:\DAE\VoxelEngine\Libs\glfw\include;C:\DAE\VoxelEngine\Libs\imgui;C:\DAE\VoxelEngine\Libs\vulkan;C:\DAE\VoxelEngine;C:\DAE\VoxelEngine\DebugUI\..\Libs\glslang;C:\DAE\VoxelEngine\Libs\glslang\glslang\..;C:\DAE\VoxelEngine\include;C:\DAE\VoxelEngine\Libs\glslang\SPIRV\..;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <AssemblerListingLocation>$(IntDir)</AssemblerListingLocation>
       <CompileAs>CompileAsCpp</CompileAs>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
@@ -197,10 +197,10 @@
     </ClCompile>
     <ResourceCompile>
       <PreprocessorDefinitions>WIN32;_WINDOWS;NOMINMAX;_USE_MATH_DEFINES;NDEBUG;CMAKE_INTDIR=\"RelWithDebInfo\";%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>C:\DAE\VoxelEngine\Libs\glm;C:\DAE\VoxelEngine\Libs\glfw\include;C:\DAE\VoxelEngine\Libs\imgui;C:\DAE\VoxelEngine\Libs\vulkan;C:\DAE\VoxelEngine;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\DAE\VoxelEngine\Libs\glm;C:\DAE\VoxelEngine\Libs\glfw\include;C:\DAE\VoxelEngine\Libs\imgui;C:\DAE\VoxelEngine\Libs\vulkan;C:\DAE\VoxelEngine;C:\DAE\VoxelEngine\DebugUI\..\Libs\glslang;C:\DAE\VoxelEngine\Libs\glslang\glslang\..;C:\DAE\VoxelEngine\include;C:\DAE\VoxelEngine\Libs\glslang\SPIRV\..;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ResourceCompile>
     <Midl>
-      <AdditionalIncludeDirectories>C:\DAE\VoxelEngine\Libs\glm;C:\DAE\VoxelEngine\Libs\glfw\include;C:\DAE\VoxelEngine\Libs\imgui;C:\DAE\VoxelEngine\Libs\vulkan;C:\DAE\VoxelEngine;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\DAE\VoxelEngine\Libs\glm;C:\DAE\VoxelEngine\Libs\glfw\include;C:\DAE\VoxelEngine\Libs\imgui;C:\DAE\VoxelEngine\Libs\vulkan;C:\DAE\VoxelEngine;C:\DAE\VoxelEngine\DebugUI\..\Libs\glslang;C:\DAE\VoxelEngine\Libs\glslang\glslang\..;C:\DAE\VoxelEngine\include;C:\DAE\VoxelEngine\Libs\glslang\SPIRV\..;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
       <HeaderFileName>%(Filename).h</HeaderFileName>
       <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
@@ -268,11 +268,10 @@ if %errorlevel% neq 0 goto :VCEnd</Command>
     </CustomBuild>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Button.cpp" />
-    <ClCompile Include="DebugArray.cpp" />
-    <ClCompile Include="ImGuiColorTextEdit\TextEditor.cpp" />
-    <ClCompile Include="DebugShaderEditor.cpp" />
-    <ClInclude Include="Button.h" />
+    <ClCompile Include="TextEditor.cpp" />
+    <ClInclude Include="C:\DAE\VoxelEngine\DebugUI\Button.h" />
+    <ClInclude Include="C:\DAE\VoxelEngine\DebugUI\DebugArray.h" />
+    <ClInclude Include="C:\DAE\VoxelEngine\DebugUI\DebugShaderEditor.h" />
     <ClInclude Include="C:\DAE\VoxelEngine\DebugUI\DebugUI.h" />
     <ClInclude Include="C:\DAE\VoxelEngine\DebugUI\DebugUIElements.h" />
     <ClInclude Include="C:\DAE\VoxelEngine\DebugUI\DebugWindow.h" />
@@ -283,19 +282,56 @@ if %errorlevel% neq 0 goto :VCEnd</Command>
     <ClCompile Include="C:\DAE\VoxelEngine\Libs\imgui\imgui_draw.cpp" />
     <ClCompile Include="C:\DAE\VoxelEngine\Libs\imgui\imgui_widgets.cpp" />
     <ClCompile Include="C:\DAE\VoxelEngine\Libs\imgui\misc\cpp\imgui_stdlib.cpp" />
+    <ClCompile Include="C:\DAE\VoxelEngine\DebugUI\Button.cpp" />
+    <ClCompile Include="C:\DAE\VoxelEngine\DebugUI\DebugArray.cpp" />
+    <ClCompile Include="C:\DAE\VoxelEngine\DebugUI\DebugShaderEditor.cpp" />
     <ClCompile Include="C:\DAE\VoxelEngine\DebugUI\DebugUI.cpp" />
     <ClCompile Include="C:\DAE\VoxelEngine\DebugUI\DebugUIElements.cpp" />
     <ClCompile Include="C:\DAE\VoxelEngine\DebugUI\DebugWindow.cpp" />
     <ClCompile Include="C:\DAE\VoxelEngine\DebugUI\imgui_impl_glfw.cpp" />
     <ClCompile Include="C:\DAE\VoxelEngine\DebugUI\imgui_impl_vulkan.cpp" />
-    <ClInclude Include="DebugArray.h" />
-    <ClInclude Include="ImGuiColorTextEdit\TextEditor.h" />
-    <ClInclude Include="DebugShaderEditor.h" />
+    <ClInclude Include="TextEditor.h" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="C:\DAE\VoxelEngine\ZERO_CHECK.vcxproj">
       <Project>{7192D76D-3BDE-382B-B896-5A49AA291F60}</Project>
       <Name>ZERO_CHECK</Name>
+      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </ProjectReference>
+    <ProjectReference Include="C:\DAE\VoxelEngine\Libs\glslang\build\glslang\GenericCodeGen.vcxproj">
+      <Project>{64E0A848-3FB3-38E1-841B-F0CD7EE3DD84}</Project>
+      <Name>GenericCodeGen</Name>
+      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </ProjectReference>
+    <ProjectReference Include="C:\DAE\VoxelEngine\Libs\glslang\build\glslang\MachineIndependent.vcxproj">
+      <Project>{F86EA9CF-B452-3BAC-862A-FE94D86B0972}</Project>
+      <Name>MachineIndependent</Name>
+      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </ProjectReference>
+    <ProjectReference Include="C:\DAE\VoxelEngine\Libs\glslang\build\OGLCompilersDLL\OGLCompiler.vcxproj">
+      <Project>{3C2B4AA5-9960-3EE6-B151-F4DD16E1BDC7}</Project>
+      <Name>OGLCompiler</Name>
+      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </ProjectReference>
+    <ProjectReference Include="C:\DAE\VoxelEngine\Libs\glslang\build\glslang\OSDependent\Windows\OSDependent.vcxproj">
+      <Project>{566EE103-5CAD-3B51-A483-C95219E12B23}</Project>
+      <Name>OSDependent</Name>
+      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </ProjectReference>
+    <ProjectReference Include="C:\DAE\VoxelEngine\Libs\glslang\build\SPIRV\SPIRV.vcxproj">
+      <Project>{0E586FBA-1B0D-3B9F-99C9-248913B5F9CE}</Project>
+      <Name>SPIRV</Name>
+      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </ProjectReference>
+    <ProjectReference Include="C:\DAE\VoxelEngine\Libs\glslang\build\glslang\glslang.vcxproj">
+      <Project>{BD8AD387-8CFB-3F51-B3BA-A97D8D94BC6A}</Project>
+      <Name>glslang</Name>
       <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </ProjectReference>

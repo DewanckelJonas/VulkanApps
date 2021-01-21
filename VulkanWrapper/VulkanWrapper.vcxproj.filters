@@ -55,6 +55,9 @@
     <ClCompile Include="C:\DAE\VoxelEngine\VulkanWrapper\Window.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="ComputePipeline.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="C:\DAE\VoxelEngine\VulkanWrapper\AccelerationStructure.h">
@@ -82,6 +85,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="C:\DAE\VoxelEngine\VulkanWrapper\GraphicsPipeline.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\DAE\VoxelEngine\VulkanWrapper\IndexBuffer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="C:\DAE\VoxelEngine\VulkanWrapper\MouseButtonCodes.h">
@@ -126,7 +132,10 @@
     <ClInclude Include="C:\DAE\VoxelEngine\VulkanWrapper\stb_image.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="IndexBuffer.h">
+    <ClInclude Include="AppInfo.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ComputePipeline.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

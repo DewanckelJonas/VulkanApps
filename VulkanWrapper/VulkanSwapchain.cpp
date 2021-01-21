@@ -42,7 +42,6 @@ bool vkw::VulkanSwapchain::PresentImage(VkSemaphore waitSemaphore)
 	presentInfo.swapchainCount = 1;
 	presentInfo.pSwapchains = &m_Swapchain;
 	presentInfo.pImageIndices = &m_ActiveSwapchainImageId;
-
 	if (waitSemaphore != VK_NULL_HANDLE){
 		presentInfo.pWaitSemaphores = &waitSemaphore;
 		presentInfo.waitSemaphoreCount = 1;
@@ -53,7 +52,6 @@ bool vkw::VulkanSwapchain::PresentImage(VkSemaphore waitSemaphore)
 		return false;
 	}
 	ErrorCheck(result);
-	ErrorCheck(vkQueueWaitIdle(m_pDevice->GetQueue()));
 	return true;
 }
 
@@ -97,7 +95,7 @@ void VulkanSwapchain::Init()
 
 		for (const VkPresentModeKHR& mode : presentModes)
 		{
-			if (mode == VK_PRESENT_MODE_IMMEDIATE_KHR) presentMode = mode;
+			if (mode == m_PreferredPresentMode) presentMode = mode;
 		}
 	}
 

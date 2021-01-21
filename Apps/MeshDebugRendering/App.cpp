@@ -24,7 +24,7 @@ void App::Init(uint32_t width, uint32_t height)
 	m_pDebugWindow = new vkw::DebugWindow("RenderModes");
 	m_pRenderModeSelector = new vkw::SelectableList<std::vector<VkCommandBuffer>>("DrawCommandBuffer", &m_DrawCommandBuffers);
 	m_pDebugWindow->AddUIElement(m_pRenderModeSelector);
-	m_pPlaneMesh = CreateRectBox(1.f, 10.f, 3.f, { 0.f, 10.f }, {1.f, 0.f, 0.f, 1.f});
+	m_pPlaneMesh = CreateRectBox(1.f, 10.f, 3.f, { 0.f, 0.f }, {1.f, 0.f, 0.f, 1.f});
 	VkExtent2D surfaceSize = GetWindow()->GetSurfaceSize();
 	m_UniformBufferData.projection = m_Camera.GetProjectionMatrix(float(surfaceSize.width), float(surfaceSize.height), 0.001f, 10000.f);
 	m_UniformBufferData.view = m_Camera.GetViewMatrix();
@@ -353,31 +353,31 @@ void App::InitRenderModes()
 														);
 
 	m_pRenderPipelines["Wireframe"] = new vkw::GraphicsPipeline(GetDevice(), GetRenderPass(), GetPipelineCache(),
-															m_pDescriptorSet->GetLayout(), &m_pVertexBuffers["Color"]->GetLayout(),
+															m_pDescriptorSet->GetLayout(), m_pVertexBuffers["Color"]->GetLayout(),
 															"../Shaders/MeshDebugRendering/ColorPerspective.vert.spv", "../Shaders/MeshDebugRendering/Color.frag.spv",
 															VK_PRIMITIVE_TOPOLOGY_TRIANGLE_LIST, VK_FRONT_FACE_CLOCKWISE, true
 															);
 
 	m_pRenderPipelines["Color"] = new vkw::GraphicsPipeline(GetDevice(), GetRenderPass(), GetPipelineCache(),
-															m_pDescriptorSet->GetLayout(), &m_pVertexBuffers["Color"]->GetLayout(),
+															m_pDescriptorSet->GetLayout(), m_pVertexBuffers["Color"]->GetLayout(),
 															"../Shaders/MeshDebugRendering/ColorPerspective.vert.spv", "../Shaders/MeshDebugRendering/Color.frag.spv",
 															VK_PRIMITIVE_TOPOLOGY_TRIANGLE_LIST, VK_FRONT_FACE_CLOCKWISE
 														   );
 
 	m_pRenderPipelines["UV"] = new vkw::GraphicsPipeline(GetDevice(), GetRenderPass(), GetPipelineCache(),
-														 m_pDescriptorSet->GetLayout(), &m_pVertexBuffers["UV"]->GetLayout(),
+														 m_pDescriptorSet->GetLayout(), m_pVertexBuffers["UV"]->GetLayout(),
 														 "../Shaders/MeshDebugRendering/UVPerspective.vert.spv", "../Shaders/MeshDebugRendering/UV.frag.spv",
 														 VK_PRIMITIVE_TOPOLOGY_TRIANGLE_LIST, VK_FRONT_FACE_CLOCKWISE
 														);
 
 	m_pRenderPipelines["Normal"] = new vkw::GraphicsPipeline(GetDevice(), GetRenderPass(), GetPipelineCache(),
-														 m_pDescriptorSet->GetLayout(), &m_pVertexBuffers["Normal"]->GetLayout(),
+														 m_pDescriptorSet->GetLayout(), m_pVertexBuffers["Normal"]->GetLayout(),
 														 "../Shaders/MeshDebugRendering/NormalPerspective.vert.spv", "../Shaders/MeshDebugRendering/Normal.frag.spv",
 														 VK_PRIMITIVE_TOPOLOGY_TRIANGLE_LIST, VK_FRONT_FACE_CLOCKWISE
 														);
 
 	m_pRenderPipelines["Diffuse"] = new vkw::GraphicsPipeline(GetDevice(), GetRenderPass(), GetPipelineCache(),
-															m_pDescriptorSet->GetLayout(), &m_pVertexBuffers["Diffuse"]->GetLayout(),
+															m_pDescriptorSet->GetLayout(), m_pVertexBuffers["Diffuse"]->GetLayout(),
 															"../Shaders/MeshDebugRendering/ColorNormalPerspective.vert.spv", "../Shaders/MeshDebugRendering/Diffuse.frag.spv",
 															VK_PRIMITIVE_TOPOLOGY_TRIANGLE_LIST, VK_FRONT_FACE_CLOCKWISE
 															);

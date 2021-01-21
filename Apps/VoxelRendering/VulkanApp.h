@@ -3,12 +3,15 @@
 #include <glm/glm.hpp>
 #include <array>
 #include "Base/Camera.h"
-
+#include "Apps/VoxelChunk.h"
+#include <Base/Array3D.h>
+#include <random>
 
 namespace vkw {
 	class Buffer;
 	class RaytracingGeometry;
 	class GraphicsPipeline;
+	class ComputePipeline;
 	class DescriptorPool;
 	class DescriptorSet;
 	class VertexBuffer;
@@ -34,32 +37,30 @@ protected:
 	void FreeDrawCommandBuffers() override;
 private:
 	void EnableRaytracingExtension();
-	void CreateInstancedVertexBuffer();
-	void CreateNoInstanceVertexBuffer();
+	void CreateTerrainVertexBuffer();
+	void CreateParticleBuffer();
 	void UpdateUniformBuffers(float dTime);
+	void Reload();
 	
 
-	vkw::Buffer*					m_pUniformBuffer = nullptr;
-	vkw::Buffer*					m_pRaymarchUniformBuffer = nullptr;
-	uint32_t						m_InstancedVertexCount = 0;
-	uint32_t						m_NoInstanceVertexCount = 0;
-	std::vector<VkCommandBuffer>	m_InstancedDrawCommandBuffers{};
-	std::vector<VkCommandBuffer>	m_NoInstanceDrawCommandBuffers{};
-	std::vector<VkCommandBuffer>	m_RaymarchDrawCommandBuffers{};
-	vkw::VertexBuffer*				m_pInstancedVertexBuffer = nullptr;
-	vkw::VertexBuffer*				m_pNoInstanceVertexBuffer = nullptr;
-	vkw::Buffer*					m_pTerrainBuffer = nullptr;
-	vkw::IndexBuffer*				m_pIndexBuffer = nullptr;
 
-	vkw::GraphicsPipeline*			m_pInstancedGraphicsPipeline = nullptr;
+	std::vector<VkCommandBuffer>	m_DrawCommandBuffers{};
+	VkCommandBuffer					m_ComputeCommandBuffer = VK_NULL_HANDLE;
+
+
 	vkw::GraphicsPipeline*			m_pNoInstanceGraphicsPipeline = nullptr;
-	vkw::GraphicsPipeline*			m_pRaymarchGraphicsPipeline = nullptr;
+	vkw::GraphicsPipeline*			m_pParticlePipeline = nullptr;
+	vkw::ComputePipeline*			m_pComputePipeline = nullptr;
 
 	vkw::DescriptorPool*			m_pDescriptorPool = nullptr;
-	vkw::DescriptorSet*				m_pInstancedDescriptorSet = nullptr;
 	vkw::DescriptorSet*				m_pNoInstanceDescriptorSet = nullptr;
-	vkw::DescriptorSet*				m_pRaymarchDescriptorSet = nullptr;
 
+	vkw::Buffer*					m_pUniformBuffer = nullptr;
+	std::vector<vkw::IndexBuffer*>	m_pIndexBuffers;
+	std::vector<vkw::VertexBuffer*>	m_pVertexBuffers;
+	vkw::Buffer*					m_pTerrainDataBuffer = nullptr;
+	vkw::Buffer*					m_pParticleBuffer = nullptr;
+	Array3D<VoxelChunk*>			m_pChunks;
 
 	struct CameraInfo
 	{
@@ -68,15 +69,13 @@ private:
 		float time = 0.f;
 	} m_Ubo;
 
-	struct RaymarchInfo
+	struct Particle 
 	{
-		glm::vec4 position;
-		glm::vec4 forward;
-		glm::vec3 right;
-		float time = 0.f;
-		glm::vec3 up;
-		float aspectRatio;
-	} m_RaymarchUbo;
+		glm::vec3 Position;
+		float Size;
+		glm::vec3 Velocity;
+		float Alpha;
+	};
 
 	vkw::DebugUI*					m_pDebugUI = nullptr;
 	vkw::DebugWindow*				m_pDebugWindow = nullptr;

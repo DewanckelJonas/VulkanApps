@@ -193,9 +193,51 @@ if %errorlevel% neq 0 goto :VCEnd</Command>
       <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </ProjectReference>
+    <ProjectReference Include="C:\DAE\VoxelEngine\Libs\glslang\build\glslang\GenericCodeGen.vcxproj">
+      <Project>{64E0A848-3FB3-38E1-841B-F0CD7EE3DD84}</Project>
+      <Name>GenericCodeGen</Name>
+      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </ProjectReference>
+    <ProjectReference Include="C:\DAE\VoxelEngine\Libs\glslang\build\hlsl\HLSL.vcxproj">
+      <Project>{515EA535-4881-3D5E-A86C-7D850FC0B65C}</Project>
+      <Name>HLSL</Name>
+      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </ProjectReference>
+    <ProjectReference Include="C:\DAE\VoxelEngine\Libs\glslang\build\glslang\MachineIndependent.vcxproj">
+      <Project>{F86EA9CF-B452-3BAC-862A-FE94D86B0972}</Project>
+      <Name>MachineIndependent</Name>
+      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </ProjectReference>
     <ProjectReference Include="C:\DAE\VoxelEngine\Apps\MeshDebugRendering.vcxproj">
       <Project>{13905689-8E25-37D1-9016-6A39B5273327}</Project>
       <Name>MeshDebugRendering</Name>
+      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </ProjectReference>
+    <ProjectReference Include="C:\DAE\VoxelEngine\Libs\glslang\build\OGLCompilersDLL\OGLCompiler.vcxproj">
+      <Project>{3C2B4AA5-9960-3EE6-B151-F4DD16E1BDC7}</Project>
+      <Name>OGLCompiler</Name>
+      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </ProjectReference>
+    <ProjectReference Include="C:\DAE\VoxelEngine\Libs\glslang\build\glslang\OSDependent\Windows\OSDependent.vcxproj">
+      <Project>{566EE103-5CAD-3B51-A483-C95219E12B23}</Project>
+      <Name>OSDependent</Name>
+      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </ProjectReference>
+    <ProjectReference Include="C:\DAE\VoxelEngine\Libs\glslang\build\SPIRV\SPIRV.vcxproj">
+      <Project>{0E586FBA-1B0D-3B9F-99C9-248913B5F9CE}</Project>
+      <Name>SPIRV</Name>
+      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </ProjectReference>
+    <ProjectReference Include="C:\DAE\VoxelEngine\Libs\glslang\build\SPIRV\SPVRemapper.vcxproj">
+      <Project>{7BA10F40-3ACF-3A7D-B613-8DA1FA2FAFB5}</Project>
+      <Name>SPVRemapper</Name>
       <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </ProjectReference>
@@ -214,6 +256,30 @@ if %errorlevel% neq 0 goto :VCEnd</Command>
     <ProjectReference Include="C:\DAE\VoxelEngine\Libs\glfw\src\glfw.vcxproj">
       <Project>{087E72A0-3835-310F-8BAB-75E34D9F1398}</Project>
       <Name>glfw</Name>
+      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </ProjectReference>
+    <ProjectReference Include="C:\DAE\VoxelEngine\Libs\glslang\build\glslang\glslang.vcxproj">
+      <Project>{BD8AD387-8CFB-3F51-B3BA-A97D8D94BC6A}</Project>
+      <Name>glslang</Name>
+      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </ProjectReference>
+    <ProjectReference Include="C:\DAE\VoxelEngine\Libs\glslang\build\StandAlone\glslang-default-resource-limits.vcxproj">
+      <Project>{8A090CD7-DA6E-3DB2-934B-2A720A3EADC5}</Project>
+      <Name>glslang-default-resource-limits</Name>
+      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </ProjectReference>
+    <ProjectReference Include="C:\DAE\VoxelEngine\Libs\glslang\build\StandAlone\glslangValidator.vcxproj">
+      <Project>{043B836B-C13B-3425-A4D6-3BD1FD7BD5D5}</Project>
+      <Name>glslangValidator</Name>
+      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </ProjectReference>
+    <ProjectReference Include="C:\DAE\VoxelEngine\Libs\glslang\build\StandAlone\spirv-remap.vcxproj">
+      <Project>{8D6EB0D1-E6A8-353A-A1B2-1B355A87C111}</Project>
+      <Name>spirv-remap</Name>
       <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </ProjectReference>

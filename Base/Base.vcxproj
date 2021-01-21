@@ -268,14 +268,18 @@ if %errorlevel% neq 0 goto :VCEnd</Command>
     </CustomBuild>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="MathExtension.cpp" />
-    <ClInclude Include="Array2D.h" />
-    <ClInclude Include="Array3D.h" />
+    <ClCompile Include="AABox.cpp" />
+    <ClCompile Include="Ray.cpp" />
+    <ClInclude Include="AABox.h" />
+    <ClInclude Include="C:\DAE\VoxelEngine\Base\Array2D.h" />
+    <ClInclude Include="C:\DAE\VoxelEngine\Base\Array3D.h" />
     <ClInclude Include="C:\DAE\VoxelEngine\Base\Camera.h" />
+    <ClInclude Include="C:\DAE\VoxelEngine\Base\MathExtension.h" />
     <ClInclude Include="C:\DAE\VoxelEngine\Base\VertexTypes.h" />
     <ClCompile Include="C:\DAE\VoxelEngine\Base\Camera.cpp" />
+    <ClCompile Include="C:\DAE\VoxelEngine\Base\MathExtension.cpp" />
     <ClCompile Include="C:\DAE\VoxelEngine\Base\VertexTypes.cpp" />
-    <ClInclude Include="MathExtension.h" />
+    <ClInclude Include="Ray.h" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="C:\DAE\VoxelEngine\ZERO_CHECK.vcxproj">

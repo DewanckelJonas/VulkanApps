@@ -19,7 +19,7 @@ struct IArray3D
 		return pData[x*Height*Depth + y*Depth + z];
 	}
 
-	IArray2D<T>& operator[](size_t x)
+	IArray2D<T> operator[](size_t x)
 	{
 		assert(x < Width && "Requesting element out of array bounds!");
 		IArray2D<T> array2DSlice;
@@ -102,12 +102,16 @@ public:
 		return m_Interface.at(x, y, z);
 	}
 
-	IArray2D<T>& operator[](size_t x)
+	IArray2D<T> operator[](size_t x)
 	{
 		return m_Interface[x];
 	}
 
-	size_t GetWidth() const { return m_Interface.Height; }
-	size_t GetHeight() const { return m_Interface.Width; }
+	//raw pointer to the memory
+	T* Data() { return m_Interface.pData; }
+
+	size_t GetWidth() const { return m_Interface.Width; }
+	size_t GetHeight() const { return m_Interface.Height; }
+	size_t GetDepth() const { return m_Interface.Depth; }
 
 };

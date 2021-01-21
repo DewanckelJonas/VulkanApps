@@ -7,9 +7,15 @@
     <ClCompile Include="C:\DAE\VoxelEngine\Apps\VoxelRendering\VulkanApp.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="VoxelChunk.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="C:\DAE\VoxelEngine\Apps\VoxelRendering\VulkanApp.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="VoxelChunk.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

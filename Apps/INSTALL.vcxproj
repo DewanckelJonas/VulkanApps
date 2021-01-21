@@ -215,7 +215,7 @@ if %errorlevel% neq 0 goto :VCEnd</Command>
       <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </ProjectReference>
-    <ProjectReference Include="C:\DAE\VoxelEngine\ALL_BUILD.vcxproj">
+    <ProjectReference Include="C:\DAE\VoxelEngine\Libs\glslang\build\ALL_BUILD.vcxproj">
       <Project>{B5BD2D98-4E92-3F17-A8BE-56094B2A50FA}</Project>
       <Name>ALL_BUILD</Name>
       <ReferenceOutputAssembly>false</ReferenceOutputAssembly>

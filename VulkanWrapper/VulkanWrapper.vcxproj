@@ -268,6 +268,8 @@ if %errorlevel% neq 0 goto :VCEnd</Command>
     </CustomBuild>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="ComputePipeline.cpp" />
+    <ClInclude Include="AppInfo.h" />
     <ClInclude Include="C:\DAE\VoxelEngine\VulkanWrapper\AccelerationStructure.h" />
     <ClInclude Include="C:\DAE\VoxelEngine\VulkanWrapper\BUILD_OPTIONS.h" />
     <ClInclude Include="C:\DAE\VoxelEngine\VulkanWrapper\Buffer.h" />
@@ -277,6 +279,7 @@ if %errorlevel% neq 0 goto :VCEnd</Command>
     <ClInclude Include="C:\DAE\VoxelEngine\VulkanWrapper\DescriptorSet.h" />
     <ClInclude Include="C:\DAE\VoxelEngine\VulkanWrapper\FrameBuffer.h" />
     <ClInclude Include="C:\DAE\VoxelEngine\VulkanWrapper\GraphicsPipeline.h" />
+    <ClInclude Include="C:\DAE\VoxelEngine\VulkanWrapper\IndexBuffer.h" />
     <ClInclude Include="C:\DAE\VoxelEngine\VulkanWrapper\MouseButtonCodes.h" />
     <ClInclude Include="C:\DAE\VoxelEngine\VulkanWrapper\Platform.h" />
     <ClInclude Include="C:\DAE\VoxelEngine\VulkanWrapper\RaytracingGeometry.h" />
@@ -309,7 +312,7 @@ if %errorlevel% neq 0 goto :VCEnd</Command>
     <ClCompile Include="C:\DAE\VoxelEngine\VulkanWrapper\VulkanHelpers.cpp" />
     <ClCompile Include="C:\DAE\VoxelEngine\VulkanWrapper\VulkanSwapchain.cpp" />
     <ClCompile Include="C:\DAE\VoxelEngine\VulkanWrapper\Window.cpp" />
-    <ClInclude Include="IndexBuffer.h" />
+    <ClInclude Include="ComputePipeline.h" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="C:\DAE\VoxelEngine\ZERO_CHECK.vcxproj">
